@@ -1,0 +1,229 @@
+@import 'tailwindcss';
+
+@font-face {
+    font-family: 'FlorsnOutline';
+    src: url('/fonts/FlorsnOutline.ttf') format('truetype');
+}  
+@font-face {
+    font-family: 'FlorsnBlack';
+    src: url('/fonts/FlorsnBlack.ttf') format('truetype');
+}  
+@font-face {
+    font-family: 'Gant';
+    src: url('/fonts/gant-regular-webfont.ttf') format('truetype');
+}
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme inline {
+    --font-sans: Instrument Sans, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Force dark mode to be class-based (selector strategy) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+.main-container {
+    @apply bg-white dark:bg-[#0a0a0a] h-full w-full bg-[length:9px_9px] bg-[image:radial-gradient(circle,#000_0.5px,rgba(0,0,0,0)_1px)] dark:bg-[image:radial-gradient(circle,#ffffff33_0.5px,rgba(0,0,0,0)_1px)];
+    @apply fixed inset-0 w-full h-full overflow-hidden flex justify-end;
+}
+
+/* View Transition Names */
+.main-container {
+    view-transition-name: main-bg;
+}
+.layout-navbar {
+    view-transition-name: navbar;
+}
+.layout-content {
+    view-transition-name: content;
+}
+
+/* Keyframes */
+@keyframes wipe-in-diagonal {
+    from { clip-path: polygon(0 0, 0 0, 0 0); }
+    to { clip-path: polygon(0 0, 250% 0, 0 250%); }
+}
+
+@keyframes wipe-out-diagonal {
+    from { clip-path: polygon(0 0, 250% 0, 0 250%); }
+    to { clip-path: polygon(0 0, 0 0, 0 0); }
+}
+
+/* Generic View Transition Logic */
+::view-transition-old(*),
+::view-transition-new(*) {
+    animation: none;
+    mix-blend-mode: normal;
+    position: absolute;
+    z-index: 1;
+}
+
+/* --- LIGHT -> DARK (Default) --- */
+/* New (Dark) grows (diagonal) over Old (Light) */
+
+/* Main BG: Immediate */
+::view-transition-new(main-bg) {
+    z-index: 9999;
+    animation: wipe-in-diagonal 1.2s ease-in-out both;
+}
+
+/* Navbar: Delayed */
+::view-transition-new(navbar) {
+    z-index: 9999;
+    animation: wipe-in-diagonal 1.2s ease-in-out both;
+    animation-delay: 0.3s;
+}
+
+/* Content: More Delayed */
+::view-transition-new(content) {
+    z-index: 9999;
+    animation: wipe-in-diagonal 1.2s ease-in-out both;
+    animation-delay: 0.6s;
+}
+
+
+/* --- DARK -> LIGHT (Reverse) --- */
+/* Old (Dark) shrinks (diagonal) revealing New (Light) */
+
+.theme-reverse::view-transition-old(main-bg) {
+    z-index: 9999;
+    animation: wipe-out-diagonal 1.2s ease-in-out both;
+}
+
+.theme-reverse::view-transition-old(navbar) {
+    z-index: 9999;
+    animation: wipe-out-diagonal 1.2s ease-in-out both;
+    animation-delay: 0.3s;
+}
+
+.theme-reverse::view-transition-old(content) {
+    z-index: 9999;
+    animation: wipe-out-diagonal 1.2s ease-in-out both;
+    animation-delay: 0.6s;
+}
+
+/* Ensure 'New' is underneath in reverse */
+.theme-reverse::view-transition-new(*) {
+    z-index: 1;
+}
+
+/* Sidebar Branding Styles */
+#sidebar {
+    /* Layout */
+    @apply w-[20%] h-full overflow-hidden;
+    
+    /* Borders */
+    @apply border-r border-black dark:border-white/20;
+    
+    /* Colors */
+    @apply text-black dark:text-[#EDEDEC];
+}
+
+#sidebar .brandingContainer {
+    /* Layout & Positioning */
+    @apply h-auto absolute top-[5%] right-[10%] w-[145px];
+    
+    /* Appearance */
+    @apply bg-transparent;
+}
+
+#sidebar .logoContainer {
+    /* Layout */
+    @apply w-[115px] h-[115px] mb-[15px] p-[15px];
+    
+    /* Background Pattern (Complex gradients kept as standard CSS) */
+    background:
+        linear-gradient(to right, currentColor 2px, transparent 2px) 0 0,
+        linear-gradient(to right, currentColor 2px, transparent 2px) 0 100%,
+        linear-gradient(to left, currentColor 2px, transparent 2px) 100% 0,
+        linear-gradient(to left, currentColor 2px, transparent 2px) 100% 100%,
+        linear-gradient(to bottom, currentColor 2px, transparent 2px) 0 0,
+        linear-gradient(to bottom, currentColor 2px, transparent 2px) 100% 0,
+        linear-gradient(to top, currentColor 2px, transparent 2px) 0 100%,
+        linear-gradient(to top, currentColor 2px, transparent 2px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    
+    /* Color transition for Dark Mode */
+    @apply text-black dark:text-white/10 transition-colors;
+}
+
+#sidebar .logoContainer img {
+    @apply w-full h-full;
+}
+
+#sidebar .title {
+    /* Typography */
+    @apply text-[50pt] leading-[45pt] block whitespace-nowrap;
+    
+    /* Layout */
+    @apply w-[400px] mt-0 overflow-hidden;
+    
+    /* Transformations */
+    transform-origin: top left;
+    transform: rotate(90deg) translate(0, -100%);
+}
+
+#sidebar .title .subtitle1 {
+    /* Typography */
+    font-family: "FlorsnBlack", Times, serif;
+    @apply text-[12pt] ml-[-130px] mb-[-15px];
+    
+    /* Animation State */
+    @apply opacity-0 transition-opacity duration-1000 ease-out;
+}
+
+#sidebar .title .first {
+    /* Typography */
+    font-family: "FlorsnBlack", Times, serif;
+    @apply ml-[-350px];
+    
+    /* Animation State */
+    @apply transition-[margin-left] duration-1000 ease-out;
+}
+
+#sidebar .title .last {
+    /* Typography */
+    font-family: "FlorsnOutline", Times, serif;
+    @apply ml-[-350px];
+    
+    /* Animation State */
+    @apply transition-[margin-left] duration-1000 ease-out;
+}
+
+/* Ported Legacy Styles for GitHub README Content */
+.twitch-block {
+    @apply bg-black h-[200px] w-fit;
+}
+.twitch-block iframe {
+    @apply block;
+}
+
+.website-link {
+    @apply w-[350px] h-[200px] relative inline-block text-center;
+}
+.website-link img {
+    @apply h-full w-full;
+}
+.website-link:hover .overlay {
+    @apply block cursor-pointer;
+}
+
+.no-wrapping-children {
+    @apply w-full overflow-auto mx-auto whitespace-nowrap;
+}
+.no-wrapping-children > * {
+    @apply float-left overflow-hidden bg-[#2c2f33] text-center;
+}
+
+.overlay {
+    @apply absolute top-0 left-0 w-full h-full bg-black/40 hidden;
+}
+.overlay .link {
+    @apply absolute top-0 left-0 w-full h-full;
+}
+.overlay .text {
+    @apply absolute w-full text-center bottom-[5px] text-white text-[12pt] font-medium;
+}
