@@ -5,7 +5,19 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('portfolio/Home');
+    $readme = Cache::remember('github_readme', 3600, function () {
+        try {
+            $markdown = file_get_contents('https://raw.githubusercontent.com/andrewgosselin/andrewgosselin/refs/heads/master/README.md');
+            $parsedown = new \Parsedown();
+            return $parsedown->text($markdown);
+        } catch (\Exception $e) {
+            return '<p>Unable to load README at this time.</p>';
+        }
+    });
+
+    return Inertia::render('portfolio/Home', [
+        'readme' => $readme
+    ]);
 })->name('home');
 
 Route::get('/projects', function () {
