@@ -6,6 +6,6 @@ return [
         "Projects" => "/projects",
         "Resume" => "/resume",
         "Arcade" => "/arcade",
-        "API" => "/docs"
+        // "API" => "/docs"
     ]
 ];

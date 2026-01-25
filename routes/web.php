@@ -39,7 +39,7 @@ Route::get('/arcade', function () {
 Route::get('/arcade/{slug}', function ($slug) {
     $games = config('games.games');
     $game = collect($games)->firstWhere('slug', $slug);
-    
+
     if (!$game) {
         abort(404);
     }
@@ -49,7 +49,7 @@ Route::get('/arcade/{slug}', function ($slug) {
     ]);
 })->name('arcade.view');
 
-Route::get('/docs', function () {
-    return Inertia::render('portfolio/ApiDocs');
-})->name('api.docs');
+// Route::get('/docs', function () {
+//     return Inertia::render('portfolio/ApiDocs');
+// })->name('api.docs');
 

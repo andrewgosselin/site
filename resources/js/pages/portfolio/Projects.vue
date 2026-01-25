@@ -37,7 +37,7 @@ const activeTab = ref<'portfolio' | 'lab'>('portfolio');
                 >
                     Portfolio
                 </button>
-                <button 
+                <!-- <button 
                     @click="activeTab = 'lab'"
                     :class="[
                         'py-4 text-sm font-bold uppercase tracking-widest border-b-2 transition-all',
@@ -47,7 +47,7 @@ const activeTab = ref<'portfolio' | 'lab'>('portfolio');
                     ]"
                 >
                     The Lab
-                </button>
+                </button> -->
             </div>
         </div>
 
