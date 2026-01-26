@@ -11,14 +11,15 @@ return [
             'link' => '/arcade/dino-run',
             'component' => 'DinoGame'
         ],
-        // [
-        //     'slug' => 'snake',
-        //     'title' => 'Snake',
-        //     'description' => 'Navigate the grid, eat food, and grow longer without hitting the walls or yourself.',
-        //     'image' => 'https://placehold.co/400x300/1a1a1a/FFF?text=Snake',
-        //     'bg' => 'bg-emerald-50 dark:bg-emerald-900/10',
-        //     'link' => '/arcade/snake'
-        // ],
+        [
+            'slug' => 'snake',
+            'title' => 'Snake',
+            'description' => 'Navigate the grid, eat food, and grow longer without hitting the walls or yourself.',
+            'image' => 'https://placehold.co/400x300/1a1a1a/FFF?text=Snake',
+            'bg' => 'bg-emerald-50 dark:bg-emerald-900/10',
+            'link' => '/arcade/snake',
+            'component' => 'SnakeGame'
+        ],
         // [
         //     'slug' => 'tetris',
         //     'title' => 'Tetris',

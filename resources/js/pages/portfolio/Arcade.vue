@@ -11,9 +11,9 @@ const isInserting = ref(false);
 const monitorOn = ref(false);
 const activeGame = ref<any | null>(null);
 
-// Async component map
 const gameComponents: Record<string, any> = {
     'DinoGame': defineAsyncComponent(() => import('@/components/portfolio/DinoGame.vue')),
+    'SnakeGame': defineAsyncComponent(() => import('@/components/portfolio/SnakeGame.vue')),
 };
 
 const CurrentGameComponent = computed(() => {
