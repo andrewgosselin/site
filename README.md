@@ -6,10 +6,9 @@
 
 My portfolio website built with Laravel.
 
-| Home |
+| Theme switcing |
 | ------------- |
-| <img width="2998" height="1506" alt="Screen Shot 2026-01-26 at 22 46 38" src="https://github.com/user-attachments/assets/58033dc6-41aa-4071-9731-42f1f973c569" /> |
-
+| ![theme-switching](https://github.com/user-attachments/assets/202f6d48-b371-4251-85db-b3bdbcf36c57) |
 
 ## Design
 
