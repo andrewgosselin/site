@@ -135,14 +135,14 @@ defineProps<{
                             <span class="text-xs font-bold uppercase tracking-[0.4em] rotate-90 md:rotate-0">CV</span>
                         </Link>
 
-                        <!-- Documentation -->
-                        <Link href="/docs"
+                        <!-- Source Code -->
+                        <a href="https://github.com/andrewgosselin/site" target="_blank"
                             class="md:col-span-1 lg:col-span-1 bg-white dark:bg-[#161615] border border-black dark:border-white/10 rounded-3xl p-8 flex items-center justify-center group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
                             <div class="text-center">
-                                <div class="text-xs font-bold uppercase tracking-widest whitespace-nowrap">API Docs
+                                <div class="text-xs font-bold uppercase tracking-widest whitespace-nowrap">Source Code
                                 </div>
                             </div>
-                        </Link>
+                        </a>
 
                     </div>
                 </div>

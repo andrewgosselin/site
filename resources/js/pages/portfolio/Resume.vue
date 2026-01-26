@@ -18,11 +18,7 @@ import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
             </a>
 
             <!-- Full Screen PDF Viewer -->
-            <iframe 
-                src="/assets/branding/resume.pdf" 
-                class="w-full h-full border-0"
-                title="Resume PDF"
-            ></iframe>
+            <embed class="h-full w-full" src="/assets/branding/resume.pdf" type="application/pdf"></embed>
         </div>
     </PortfolioLayout>
 </template>
