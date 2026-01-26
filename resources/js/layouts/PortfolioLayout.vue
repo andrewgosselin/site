@@ -209,7 +209,7 @@ onMounted(() => {
     <div class="main-container">
         <!-- Branding Element -->
         <div id="sidebar" class="hidden lg:block absolute left-0 top-0 z-10">
-            <div class="brandingContainer">
+            <Link href="/" class="brandingContainer block cursor-pointer">
                 <div class="logoContainer">
                     <img src="/assets/branding/logo.png" alt="Logo">
                 </div>
@@ -219,7 +219,7 @@ onMounted(() => {
                     <div class="first" ref="firstRef">#*@)($*%%</div>
                     <div class="last" ref="lastRef">*%#*)!*@(%</div>
                 </div>
-            </div>
+            </Link>
         </div>
 
         <!-- Right Panel -->
@@ -241,7 +241,12 @@ onMounted(() => {
                         :key="url"
                         :href="url" 
                         prefetch
-                        class="px-6 h-full flex items-center hover:bg-gray-50 dark:hover:bg-white/5 transition-colors uppercase text-sm font-medium tracking-wide"
+                        class="px-6 h-full flex items-center transition-colors uppercase text-sm font-medium tracking-wide"
+                        :class="[
+                            currentPageLabel === label 
+                                ? 'bg-gray-100 dark:bg-white/10 text-black dark:text-white font-bold box-border border-b-2 border-black dark:border-white' 
+                                : 'hover:bg-gray-50 dark:hover:bg-white/5 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-[#EDEDEC]'
+                        ]"
                     >
                         {{ label }}
                     </Link>
@@ -390,7 +395,12 @@ onMounted(() => {
                         :href="url" 
                         @click="isMobileMenuOpen = false"
                         prefetch
-                        class="block px-4 py-3 mb-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors uppercase text-sm font-medium tracking-wide dark:text-[#EDEDEC]"
+                        class="block px-4 py-3 mb-2 rounded-lg transition-colors uppercase text-sm font-medium tracking-wide"
+                        :class="[
+                            currentPageLabel === label 
+                                ? 'bg-gray-100 dark:bg-white/10 text-black dark:text-white font-bold' 
+                                : 'hover:bg-gray-50 dark:hover:bg-white/5 text-gray-500 dark:text-gray-400'
+                        ]"
                     >
                         {{ label }}
                     </Link>
