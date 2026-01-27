@@ -10,7 +10,13 @@ const tools = [
         icon: 'pi pi-code',
         color: 'bg-emerald-500'
     },
-    // Future tools can go here
+    {
+        name: 'Encoder / Decoder',
+        description: 'Encode and decode URL, Base64, JWT, and HTML entities.',
+        href: '/tools/encoder',
+        icon: 'pi pi-arrow-right-arrow-left',
+        color: 'bg-blue-500'
+    }
 ];
 </script>
 
@@ -32,7 +38,7 @@ const tools = [
                     v-for="tool in tools" 
                     :key="tool.name"
                     :href="tool.href"
-                    class="group relative overflow-hidden bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6 transition-all duration-300 hover:border-black dark:hover:border-white hover:shadow-lg"
+                    class="block group relative overflow-hidden bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6 transition-all duration-300 hover:border-black dark:hover:border-white hover:shadow-lg select-none"
                 >
                     <div class="flex items-start justify-between mb-4">
                         <div :class="[tool.color, 'w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg']">
@@ -52,14 +58,8 @@ const tools = [
                 </Link>
 
                 <!-- Coming Soon Placeholder -->
-                 <div class="relative overflow-hidden bg-gray-50/50 dark:bg-white/5 border border-dashed border-gray-200 dark:border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center text-center opacity-75">
-                    <div class="w-12 h-12 rounded-xl bg-gray-200 dark:bg-white/10 flex items-center justify-center text-gray-400 mb-4">
-                        <i class="pi pi-plus text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold mb-1 dark:text-white">More Coming Soon</h3>
-                    <p class="text-gray-500 dark:text-gray-500 text-xs">
-                        Check back later for more tools.
-                    </p>
+                <div class="min-h-[300px] bg-gray-50 dark:bg-white/5 rounded-3xl p-8 border border-dashed border-gray-300 dark:border-white/10 flex items-center justify-center">
+                    <span class="text-gray-400 font-medium tracking-widest uppercase text-sm">More tools coming soon</span>
                 </div>
             </div>
         </div>

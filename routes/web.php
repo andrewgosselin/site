@@ -12,6 +12,10 @@ Route::get('/tools/json', function () {
     return Inertia::render('tools/JsonTool');
 })->name('tools.json');
 
+Route::get('/tools/encoder', function () {
+    return Inertia::render('tools/EncoderTool');
+})->name('tools.encoder');
+
 Route::get('/', function () {
     $readme = Cache::remember('github_readme', 3600, function () {
         try {
