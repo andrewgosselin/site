@@ -70,11 +70,6 @@ const tools = [
                         {{ tool.description }}
                     </p>
                 </Link>
-
-                <!-- Coming Soon Placeholder -->
-                <div class="min-h-[300px] bg-gray-50 dark:bg-white/5 rounded-3xl p-8 border border-dashed border-gray-300 dark:border-white/10 flex items-center justify-center">
-                    <span class="text-gray-400 font-medium tracking-widest uppercase text-sm">More tools coming soon</span>
-                </div>
             </div>
         </div>
     </PortfolioLayout>
