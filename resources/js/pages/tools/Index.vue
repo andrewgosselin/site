@@ -16,6 +16,13 @@ const tools = [
         href: '/tools/encoder',
         icon: 'pi pi-arrow-right-arrow-left',
         color: 'bg-blue-500'
+    },
+    {
+        name: 'Generator',
+        description: 'Generate UUIDs, secure passwords, and cryptographic hashes.',
+        href: '/tools/generator',
+        icon: 'pi pi-key',
+        color: 'bg-neutral-900 dark:bg-white dark:!text-black'
     }
 ];
 </script>

@@ -16,6 +16,10 @@ Route::get('/tools/encoder', function () {
     return Inertia::render('tools/EncoderTool');
 })->name('tools.encoder');
 
+Route::get('/tools/generator', function () {
+    return Inertia::render('tools/GeneratorTool');
+})->name('tools.generator');
+
 Route::get('/', function () {
     $readme = Cache::remember('github_readme', 3600, function () {
         try {
