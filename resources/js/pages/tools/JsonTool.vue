@@ -4,10 +4,13 @@ import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
 import JsonTreeView from '@/components/tools/JsonTreeView.vue';
 import JsonVisualView from '@/components/tools/JsonVisualView.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import yaml from 'js-yaml';
+import { js2xml } from 'xml-js';
 
 const jsonInput = ref('');
-const activeTab = ref<'structured' | 'visual'>('visual');
+const activeTab = ref<'structured' | 'visual' | 'convert'>('visual');
 const error = ref<string | null>(null);
+const convertFormat = ref<'yaml' | 'xml'>('yaml');
 
 const parsedJson = computed(() => {
     if (!jsonInput.value.trim()) return null;
@@ -28,10 +31,56 @@ const beautifiedHtml = computed(() => {
     return jsonInput.value;
 });
 
-const copyToClipboard = async () => {
-    if (beautifiedHtml.value) {
-        await navigator.clipboard.writeText(beautifiedHtml.value);
+const convertedOutput = computed(() => {
+    if (!parsedJson.value) return '';
+    try {
+        switch (convertFormat.value) {
+            case 'yaml':
+                return yaml.dump(parsedJson.value);
+            case 'xml':
+                return js2xml(parsedJson.value, { compact: true, spaces: 4 });
+            default:
+                return '';
+        }
+    } catch (e: any) {
+        return `Conversion Error: ${e.message}`;
     }
+});
+
+const copyToClipboard = async () => {
+    const textToCopy = activeTab.value === 'convert' ? convertedOutput.value : beautifiedHtml.value;
+    if (textToCopy) {
+        await navigator.clipboard.writeText(textToCopy);
+    }
+};
+
+const download = () => {
+    let content = '';
+    let extension = '';
+    let mimeType = '';
+
+    if (activeTab.value === 'convert') {
+        content = convertedOutput.value;
+        extension = convertFormat.value;
+        if (extension === 'yaml') mimeType = 'text/yaml';
+        if (extension === 'xml') mimeType = 'application/xml';
+    } else {
+        content = beautifiedHtml.value;
+        extension = 'json';
+        mimeType = 'application/json';
+    }
+
+    if (!content) return;
+
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `data.${extension}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 };
 
 const minify = () => {
@@ -127,20 +176,49 @@ const loadSample = () => {
                             >
                                 Structured
                             </button>
+                            <button 
+                                @click="activeTab = 'convert'"
+                                class="pb-2 text-sm font-medium uppercase tracking-wider transition-colors border-b-2"
+                                :class="activeTab === 'convert' ? 'border-black dark:border-white text-black dark:text-white' : 'border-transparent text-gray-500 hover:text-black dark:hover:text-white'"
+                            >
+                                Convert
+                            </button>
                         </div>
-                        <button @click="copyToClipboard" class="text-xs text-gray-500 hover:text-black dark:hover:text-white transition-colors">
-                            Copy JSON
-                        </button>
+                        <div class="flex gap-4">
+                            <button 
+                                v-if="parsedJson"
+                                @click="download" 
+                                class="text-xs text-gray-500 hover:text-black dark:hover:text-white transition-colors"
+                            >
+                                Download
+                            </button>
+                            <button @click="copyToClipboard" class="text-xs text-gray-500 hover:text-black dark:hover:text-white transition-colors">
+                                Copy {{ activeTab === 'convert' ? 'Result' : 'JSON' }}
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="flex-1 relative bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg overflow-hidden">
+                    <div class="flex-1 relative bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg overflow-hidden flex flex-col">
+                        <!-- Convert Format Selector -->
+                        <div v-if="activeTab === 'convert'" class="p-2 border-b border-gray-200 dark:border-white/10 flex gap-2">
+                             <button 
+                                v-for="fmt in ['yaml', 'xml']" 
+                                :key="fmt"
+                                @click="convertFormat = fmt as any"
+                                class="px-3 py-1 text-xs font-bold uppercase rounded-md transition-colors"
+                                :class="convertFormat === fmt ? 'bg-black text-white dark:bg-white dark:text-black' : 'hover:bg-gray-200 dark:hover:bg-white/10'"
+                            >
+                                {{ fmt }}
+                            </button>
+                        </div>
+
                         <!-- Error Overlay -->
                         <div v-if="error" class="absolute inset-x-0 bottom-0 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-2 text-xs font-mono border-t border-red-200 dark:border-red-900/50 z-10">
                             {{ error }}
                         </div>
 
                         <!-- Content -->
-                        <div class="absolute inset-0 overflow-auto p-4 custom-scrollbar">
+                        <div class="flex-1 overflow-auto p-4 custom-scrollbar relative">
                             <div v-if="!jsonInput" class="h-full flex items-center justify-center text-gray-400 italic">
                                 Result will appear here...
                             </div>
@@ -148,6 +226,7 @@ const loadSample = () => {
                             <template v-else>
                                 <JsonTreeView v-if="activeTab === 'structured' && parsedJson" :data="parsedJson" />
                                 <JsonVisualView v-else-if="activeTab === 'visual' && parsedJson" :data="parsedJson" />
+                                <pre v-else-if="activeTab === 'convert'" class="font-mono text-sm leading-6 dark:text-[#EDEDEC] whitespace-pre-wrap">{{ convertedOutput }}</pre>
                                 <div v-else class="text-red-500">Invalid JSON</div>
                             </template>
                         </div>
