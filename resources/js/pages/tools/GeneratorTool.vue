@@ -3,12 +3,16 @@ import { ref, computed } from 'vue';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from 'nanoid';
 
-const mode = ref<'uuid' | 'password' | 'hash'>('uuid');
+const mode = ref<'uuid' | 'nanoid' | 'password' | 'hash'>('uuid');
 const output = ref('');
 
 // UUID Options
 const uuidCount = ref(1);
+
+// NanoID Options
+const nanoidLength = ref(21);
 
 // Password Options
 const passwordLength = ref(16);
@@ -27,6 +31,9 @@ const generate = () => {
             const uuids = Array.from({ length: uuidCount.value }, () => uuidv4());
             output.value = uuids.join('\n');
             break;
+        case 'nanoid':
+             output.value = nanoid(nanoidLength.value);
+             break;
         case 'password':
             const charset = [
                 useUppercase.value ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '',
@@ -97,13 +104,13 @@ generate();
                         <label class="text-xs font-bold uppercase tracking-wider text-gray-400">Type</label>
                         <div class="grid grid-cols-1 gap-2">
                             <button 
-                                v-for="m in ['uuid', 'password', 'hash']" 
+                                v-for="m in ['uuid', 'nanoid', 'password', 'hash']" 
                                 :key="m"
                                 @click="mode = m as any; generate()"
                                 class="px-4 py-3 text-sm font-bold text-left rounded-xl transition-all border-2"
                                 :class="mode === m ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black' : 'border-transparent bg-white dark:bg-black/20 dark:text-gray-300 hover:border-gray-200 dark:hover:border-white/20'"
                             >
-                                {{ m === 'uuid' ? 'UUID / GUID' : m === 'password' ? 'Password' : 'Secrets & Hashes' }}
+                                {{ m === 'uuid' ? 'UUID / GUID' : m === 'nanoid' ? 'NanoID' : m === 'password' ? 'Password' : 'Secrets & Hashes' }}
                             </button>
                         </div>
                     </div>
@@ -115,6 +122,14 @@ generate();
                         <div class="flex flex-col gap-2">
                             <label class="text-xs font-bold uppercase tracking-wider text-gray-400">Quantity: {{ uuidCount }}</label>
                             <input type="range" v-model.number="uuidCount" min="1" max="50" class="w-full accent-black dark:accent-white" @input="generate" />
+                        </div>
+                    </div>
+
+                    <!-- NanoID Options -->
+                    <div v-if="mode === 'nanoid'" class="flex flex-col gap-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold uppercase tracking-wider text-gray-400">Length: {{ nanoidLength }}</label>
+                            <input type="range" v-model.number="nanoidLength" min="5" max="64" class="w-full accent-black dark:accent-white" @input="generate" />
                         </div>
                     </div>
 
