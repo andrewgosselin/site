@@ -180,20 +180,20 @@ defineProps<{
                             <span class="text-xs font-bold uppercase tracking-[0.4em]">Github</span>
                         </a>
 
-                        <!-- Source (Row 2, Col 2) -->
-                        <a href="https://github.com/andrewgosselin/site" target="_blank"
-                            class="md:col-span-1 bg-[#2b3137] text-white rounded-3xl p-8 flex flex-col items-center justify-center hover:bg-[#24292e] transition-all gap-2 text-center group">
-                            <i class="pi pi-code text-3xl group-hover:-translate-y-1 transition-transform"></i>
-                            <span class="text-xs font-bold uppercase tracking-[0.4em]">Source</span>
-                        </a>
-
-                        <!-- All Projects Link (Bottom Left, 2 cols) -->
+                        <!-- Projects (Row 2, Col 2) -->
                         <Link href="/projects"
+                            class="md:col-span-1 bg-[#ff5e00] text-white rounded-3xl p-8 flex flex-col items-center justify-center hover:bg-[#e65500] transition-all gap-2 text-center group">
+                            <i class="pi pi-th-large text-3xl group-hover:-translate-y-1 transition-transform"></i>
+                            <span class="text-xs font-bold uppercase tracking-[0.4em]">Projects</span>
+                        </Link>
+
+                        <!-- Tools Link (Bottom Left, 2 cols) -->
+                        <Link href="/tools"
                             class="md:col-span-2 bg-black text-white dark:bg-white dark:text-black rounded-3xl p-8 flex flex-col justify-between group transition-all hover:translate-y-[-4px] relative overflow-hidden">
                             <div class="absolute right-[-20px] top-[-20px] opacity-10 rotate-12 transform scale-150 pointer-events-none">
-                                <i class="pi pi-th-large text-[15rem]"></i>
+                                <i class="pi pi-wrench text-[15rem]"></i>
                             </div>
-                            <h3 class="text-4xl font-bold tracking-tighter relative z-10">VIEW ALL<br>PROJECTS</h3>
+                            <h3 class="text-4xl font-bold tracking-tighter relative z-10">DEVELOPER<br>TOOLS</h3>
                             <div class="flex justify-end relative z-10">
                                 <i class="pi pi-arrow-right text-4xl transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
                             </div>

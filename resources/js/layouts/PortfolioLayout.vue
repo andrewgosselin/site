@@ -18,8 +18,10 @@ const isMobileMenuOpen = ref(false);
 
 withDefaults(defineProps<{
     mainContainerClass?: string;
+    fullWidth?: boolean;
 }>(), {
-    mainContainerClass: 'p-8'
+    mainContainerClass: 'p-8',
+    fullWidth: false
 });
 
 const toggleTheme = async () => {
@@ -208,7 +210,7 @@ onMounted(() => {
 <template>
     <div class="main-container">
         <!-- Branding Element -->
-        <div id="sidebar" class="hidden lg:block absolute left-0 top-0 z-10">
+        <div id="sidebar" :class="['hidden absolute left-0 top-0 z-10', fullWidth ? 'hidden' : 'lg:block']">
             <Link href="/" class="brandingContainer block cursor-pointer">
                 <div class="logoContainer">
                     <img src="/assets/branding/logo.png" alt="Logo">
@@ -223,7 +225,7 @@ onMounted(() => {
         </div>
 
         <!-- Right Panel -->
-        <div class="h-full w-full lg:w-[80%] flex flex-col bg-white dark:bg-[#161615] relative">
+        <div :class="['h-full w-full flex flex-col bg-white dark:bg-[#161615] relative', fullWidth ? 'w-full' : 'lg:w-[80%]']">
             
             <!-- Top Navigation -->
             <nav class="layout-navbar h-[70px] w-full border-b border-black dark:border-white/10 flex items-center px-4 md:px-8 shrink-0 dark:text-[#EDEDEC] bg-white dark:bg-[#161615]">

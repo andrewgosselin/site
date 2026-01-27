@@ -4,6 +4,14 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::get('/tools', function () {
+    return Inertia::render('tools/Index');
+})->name('tools.index');
+
+Route::get('/tools/json', function () {
+    return Inertia::render('tools/JsonTool');
+})->name('tools.json');
+
 Route::get('/', function () {
     $readme = Cache::remember('github_readme', 3600, function () {
         try {
