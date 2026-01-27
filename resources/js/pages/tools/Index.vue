@@ -23,6 +23,13 @@ const tools = [
         href: '/tools/generator',
         icon: 'pi pi-key',
         color: 'bg-neutral-900 dark:bg-white dark:!text-black'
+    },
+    {
+        name: 'SEO Checker',
+        description: 'Preview how URLs appear in search results and social media.',
+        href: '/tools/seo-checker',
+        icon: 'pi pi-search',
+        color: 'bg-purple-500'
     }
 ];
 </script>

@@ -20,6 +20,12 @@ Route::get('/tools/generator', function () {
     return Inertia::render('tools/GeneratorTool');
 })->name('tools.generator');
 
+Route::get('/tools/seo-checker', function () {
+    return Inertia::render('tools/MetaViewerTool');
+})->name('tools.seo-checker');
+
+Route::post('/api/tools/fetch-metadata', [\App\Http\Controllers\Tools\MetadataController::class, 'fetch']);
+
 Route::get('/', function () {
     $readme = Cache::remember('github_readme', 3600, function () {
         try {
