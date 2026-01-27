@@ -31,4 +31,9 @@ class ToolsController extends Controller
     {
         return Inertia::render('tools/MetaViewerTool');
     }
+
+    public function image()
+    {
+        return Inertia::render('tools/ImageTool');
+    }
 }

@@ -30,6 +30,13 @@ const tools = [
         href: '/tools/seo-checker',
         icon: 'pi pi-search',
         color: 'bg-purple-500'
+    },
+    {
+        name: 'Image Tool',
+        description: 'Convert, resize, crop, and transform images.',
+        href: '/tools/image',
+        icon: 'pi pi-image',
+        color: 'bg-pink-500'
     }
 ];
 </script>

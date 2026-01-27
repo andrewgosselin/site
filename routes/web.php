@@ -12,6 +12,7 @@ Route::prefix('tools')->name('tools.')->group(function () {
     Route::get('/encoder', [ToolsController::class, 'encoder'])->name('encoder');
     Route::get('/generator', [ToolsController::class, 'generator'])->name('generator');
     Route::get('/seo-checker', [ToolsController::class, 'seoChecker'])->name('seo-checker');
+    Route::get('/image', [ToolsController::class, 'image'])->name('image');
 });
 
 // Tools API Routes
