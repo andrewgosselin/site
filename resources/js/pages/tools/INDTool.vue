@@ -167,64 +167,93 @@ const visiblePages = computed(() => {
 
                 <!-- Data Table -->
                 <div v-else>
-                    <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
-                        <table class="w-full text-left text-sm">
-                            <thead>
-                                <tr class="bg-gray-50 dark:bg-zinc-800/50 border-b border-gray-200 dark:border-zinc-800">
-                                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white w-2/3">Organisation</th>
-                                    <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white w-1/3 text-right tabular-nums">KvK Number</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100 dark:divide-zinc-800">
-                                <tr 
-                                    v-for="(sponsor, index) in paginatedSponsors" 
-                                    :key="index"
-                                    class="hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
-                                >
-                                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
-                                        {{ sponsor.name }}
-                                    </td>
-                                    <td class="px-6 py-4 text-gray-500 dark:text-gray-400 text-right font-mono">
+                    <div class="space-y-4">
+                        <!-- Desktop Table -->
+                        <div class="hidden md:block overflow-hidden rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
+                            <table class="w-full text-left text-sm">
+                                <thead>
+                                    <tr class="bg-gray-50 dark:bg-zinc-800/50 border-b border-gray-200 dark:border-zinc-800">
+                                        <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white w-2/3">Organisation</th>
+                                        <th class="px-6 py-4 font-semibold text-gray-900 dark:text-white w-1/3 text-right tabular-nums">KvK Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 dark:divide-zinc-800">
+                                    <tr 
+                                        v-for="(sponsor, index) in paginatedSponsors" 
+                                        :key="index"
+                                        class="hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+                                    >
+                                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
+                                            {{ sponsor.name }}
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-500 dark:text-gray-400 text-right font-mono">
+                                            {{ sponsor.kvk_number }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mobile Cards -->
+                        <div class="md:hidden space-y-3">
+                            <div 
+                                v-for="(sponsor, index) in paginatedSponsors" 
+                                :key="index"
+                                class="bg-white dark:bg-zinc-900 rounded-lg p-4 border border-gray-200 dark:border-zinc-800 shadow-sm"
+                            >
+                                <div class="font-medium text-gray-900 dark:text-white text-base mb-2">
+                                    {{ sponsor.name }}
+                                </div>
+                                <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                                    <span>KvK Number</span>
+                                    <span class="font-mono bg-gray-50 dark:bg-zinc-800 px-2 py-1 rounded">
                                         {{ sponsor.kvk_number }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Pagination -->
-                    <div class="mt-6 flex items-center justify-between">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                    <div class="mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <p class="text-xs md:text-sm text-gray-500 dark:text-gray-400 text-center md:text-left order-2 md:order-1">
                             Showing <span class="font-medium text-black dark:text-white">{{ (currentPage - 1) * itemsPerPage + 1 }}</span> to <span class="font-medium text-black dark:text-white">{{ Math.min(currentPage * itemsPerPage, filteredSponsors.length) }}</span> of <span class="font-medium text-black dark:text-white">{{ filteredSponsors.length }}</span> results
                         </p>
                         
-                        <div class="flex items-center gap-1">
+                        <div class="flex items-center gap-1 order-1 md:order-2 w-full md:w-auto justify-center">
                             <button 
                                 @click="goToPage(currentPage - 1)" 
                                 :disabled="currentPage === 1"
-                                class="px-3 py-1 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                class="flex-1 md:flex-none px-3 py-2 md:py-1 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border md:border-0 border-gray-200 dark:border-zinc-800"
                             >
                                 Previous
                             </button>
                             
-                            <template v-for="(page, index) in visiblePages" :key="index">
-                                <span v-if="page === '...'" class="px-2 text-gray-400">...</span>
-                                <button 
-                                    v-else 
-                                    @click="goToPage(page as number)"
-                                    class="min-w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium transition-colors"
-                                    :class="currentPage === page 
-                                        ? 'bg-black dark:bg-white text-white dark:text-black' 
-                                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800'"
-                                >
-                                    {{ page }}
-                                </button>
-                            </template>
+                            <div class="hidden md:flex items-center gap-1">
+                                <template v-for="(page, index) in visiblePages" :key="index">
+                                    <span v-if="page === '...'" class="px-2 text-gray-400">...</span>
+                                    <button 
+                                        v-else 
+                                        @click="goToPage(page as number)"
+                                        class="min-w-8 h-8 flex items-center justify-center rounded-md text-sm font-medium transition-colors"
+                                        :class="currentPage === page 
+                                            ? 'bg-black dark:bg-white text-white dark:text-black' 
+                                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800'"
+                                    >
+                                        {{ page }}
+                                    </button>
+                                </template>
+                            </div>
+
+                            <!-- Mobile Page Indicator -->
+                            <span class="md:hidden text-sm font-medium px-4">
+                                {{ currentPage }} / {{ totalPages }}
+                            </span>
 
                             <button 
                                 @click="goToPage(currentPage + 1)" 
                                 :disabled="currentPage === totalPages"
-                                class="px-3 py-1 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                class="flex-1 md:flex-none px-3 py-2 md:py-1 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border md:border-0 border-gray-200 dark:border-zinc-800"
                             >
                                 Next
                             </button>
