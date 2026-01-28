@@ -160,6 +160,12 @@ http {
            }
         )
      
+        location ~ ^/(assets|fonts)/ {
+            expires 1y;
+            add_header Cache-Control "public, no-transform";
+            access_log off;
+        }
+
         location = /favicon.ico { access_log off; log_not_found off; }
         location = /robots.txt  { access_log off; log_not_found off; }
      
