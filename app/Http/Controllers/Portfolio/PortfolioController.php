@@ -29,7 +29,7 @@ class PortfolioController extends Controller
                     $src = $img->getAttribute('src');
                     // Target the profile image specifically
                     if (str_contains($src, 'avatars.githubusercontent.com') || str_contains($src, 'images.weserv.nl')) {
-                        $img->setAttribute('alt', 'Andrew Gosselin');
+                        $img->setAttribute('alt', 'Logo for Andrew Gosselin');
                         $img->setAttribute('src', 'https://images.weserv.nl/?url=avatars.githubusercontent.com/u/32310481?v=4');
                     }
                 }
