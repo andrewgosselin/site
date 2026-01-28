@@ -85,7 +85,23 @@ defineProps<{
 
 <template>
 
-    <Head title="Home" />
+    <Head title="Home">
+        <meta name="description" content="Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills." />
+        <meta name="keywords" content="Andrew Gosselin, Full Stack Developer, Laravel, Vue, PHP, Web Development, The Hague" />
+        
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://andrewgosselin.com" />
+        <meta property="og:title" content="Andrew Gosselin | Full Stack Developer" />
+        <meta property="og:description" content="Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills." />
+        <meta property="og:image" content="https://andrewgosselin.com/assets/branding/logo.png" />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Andrew Gosselin | Full Stack Developer" />
+        <meta name="twitter:description" content="Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills." />
+        <meta name="twitter:image" content="https://andrewgosselin.com/assets/branding/logo.png" />
+    </Head>
 
     <PortfolioLayout mainContainerClass="p-0 h-full flex flex-col">
         <!-- Header -->
