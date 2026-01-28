@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
+import SeoHead from '@/components/SeoHead.vue';
 
 const tools = [
     {
@@ -49,7 +50,10 @@ const tools = [
 </script>
 
 <template>
-    <Head title="Tools" />
+    <SeoHead 
+        title="Tools" 
+        description="A collection of developer utilities including JSON tools, Encoders, Generators, and SEO Checkers."
+    />
     <PortfolioLayout>
         <div class="p-4 md:p-8 md:pt-12 max-w-7xl mx-auto">
             <div class="mb-12">

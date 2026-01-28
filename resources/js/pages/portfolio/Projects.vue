@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
+import SeoHead from '@/components/SeoHead.vue';
 import DinoGame from '@/components/portfolio/DinoGame.vue';
 import { projects, ideas } from '@/data/projects';
 
@@ -9,7 +10,10 @@ const activeTab = ref<'portfolio' | 'lab'>('portfolio');
 </script>
 
 <template>
-    <Head title="Projects" />
+    <SeoHead 
+        title="Projects" 
+        description="Explore my portfolio of web development projects, including Laravel, Vue.js, and other web applications."
+    />
 
     <PortfolioLayout mainContainerClass="p-0">
         <!-- Header / Hero -->

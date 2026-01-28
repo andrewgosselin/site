@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
+import SeoHead from '@/components/SeoHead.vue';
 
 const time = ref('');
 
@@ -93,23 +94,10 @@ defineProps<{
 
 <template>
 
-    <Head title="Home">
-        <meta name="description" content="Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills." />
-        <meta name="keywords" content="Andrew Gosselin, Full Stack Developer, Laravel, Vue, PHP, Web Development, The Hague" />
-        
-        <!-- Open Graph -->
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://gosselin.dev" />
-        <meta property="og:title" content="Andrew Gosselin | Full Stack Developer" />
-        <meta property="og:description" content="Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills." />
-        <meta property="og:image" content="https://gosselin.dev/assets/branding/banner.webp" />
-
-        <!-- Twitter -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Andrew Gosselin | Full Stack Developer" />
-        <meta name="twitter:description" content="Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills." />
-        <meta name="twitter:image" content="https://gosselin.dev/assets/branding/banner.webp" />
-    </Head>
+    <SeoHead 
+        title="Home" 
+        description="Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills."
+    />
 
     <PortfolioLayout mainContainerClass="p-0 h-full flex flex-col">
         <!-- Header -->
