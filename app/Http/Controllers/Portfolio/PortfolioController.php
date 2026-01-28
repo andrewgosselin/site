@@ -58,4 +58,9 @@ class PortfolioController extends Controller
             'game' => $game
         ]);
     }
+
+    public function apiDocs()
+    {
+        return Inertia::render('portfolio/ApiDocs');
+    }
 }

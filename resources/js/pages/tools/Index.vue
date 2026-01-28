@@ -37,6 +37,13 @@ const tools = [
         href: '/tools/image',
         icon: 'pi pi-image',
         color: 'bg-pink-500'
+    },
+    {
+        name: 'IND Register',
+        description: 'Search recognised sponsors for regular labour and highly skilled migrants.',
+        href: '/tools/ind',
+        icon: 'pi pi-building',
+        color: 'bg-orange-500'
     }
 ];
 </script>
