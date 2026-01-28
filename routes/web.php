@@ -31,3 +31,5 @@ Route::get('/arcade/{slug}', [PortfolioController::class, 'arcadeView'])->name('
 
 Route::get('/docs', [PortfolioController::class, 'apiDocs'])->name('api.docs');
 
+
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index']);
