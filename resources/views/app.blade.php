@@ -33,6 +33,8 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600&display=swap" rel="stylesheet" />
     </noscript>
 
+    <script defer src="https://analytics.gosselin.dev/script.js" data-website-id="3accd25c-c850-40d1-ab7c-c01a9c186971"></script>
+    
     @vite(['resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
     @inertiaHead
 </head>
