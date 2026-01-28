@@ -3,7 +3,7 @@
 return [
     'defaults' => [
         'title' => 'Andrew Gosselin | Full Stack Developer',
-        'description' => 'Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills.',
+        'description' => 'Andrew Gosselin - Full Stack Developer based in The Hague, NL. Take a look at my portfolio, also has a couple of tools and other fun things to play with.',
         'keywords' => 'Andrew Gosselin, Full Stack Developer, Laravel, Vue, PHP, Web Development, The Hague',
         'image' => 'https://gosselin.dev/assets/branding/banner.webp',
         'type' => 'website',
@@ -12,8 +12,8 @@ return [
 
     'routes' => [
         'home' => [
-            'title' => 'Home',
-            'description' => 'Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills.',
+            'title' => 'Portfolio',
+            'description' => 'Andrew Gosselin - Full Stack Developer based in The Hague, NL. Take a look at my portfolio, also has a couple of tools and other fun things to play with.',
         ],
         'projects' => [
             'title' => 'Projects',
