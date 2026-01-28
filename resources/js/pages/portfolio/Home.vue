@@ -110,7 +110,7 @@ defineProps<{
                     <span class="text-xs font-bold tracking-[0.2em] uppercase">Open to work</span>
                 </div>
                 <div class="h-4 w-[1px] bg-black/10 dark:bg-white/10"></div>
-                <div class="text-xs font-bold tracking-[0.2em] uppercase text-gray-400">The Hague, NL</div>
+                <div class="text-xs font-bold tracking-[0.2em] uppercase text-gray-600">The Hague, NL</div>
             </div>
             <div class="text-xs font-mono font-bold">{{ time }}</div>
         </div>
@@ -122,7 +122,7 @@ defineProps<{
                 <div
                     class="lg:w-[400px] xl:w-[500px] lg:border-r border-black dark:border-white/10 bg-white dark:bg-[#161615]">
                     <div class="p-8">
-                        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 mb-6">About Me</h2>
+                        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-600 mb-6">About Me</h2>
                         <div v-html="readme" class="prose prose-sm dark:prose-invert max-w-none
                                 prose-headings:font-bold prose-headings:tracking-tight
                                 prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
@@ -159,7 +159,7 @@ defineProps<{
                         <!-- Technologies (Top Right, spans 2 cols, 2 rows) -->
                         <div
                             class="md:col-span-2 md:row-span-2 bg-[#EDEDEC] dark:bg-[#1C1C1E] rounded-3xl p-8 border border-black/5 dark:border-white/5 flex flex-col">
-                            <h3 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 mb-6">Commonly Used</h3>
+                            <h3 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-600 mb-6">Commonly Used</h3>
                             <div class="grid grid-cols-2 sm:grid-cols-2 gap-2 text-xs font-bold tracking-widest uppercase flex-1 content-start">
                                 <a v-for="t in stackItems" :key="t.name" :href="t.url" target="_blank"
                                     class="flex items-center gap-2 p-2 rounded-xl border border-black/5 dark:border-white/5 bg-white dark:bg-black/20 hover:scale-105 transition-transform cursor-pointer overflow-hidden"

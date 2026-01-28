@@ -333,7 +333,7 @@ onMounted(() => {
             </div>
 
             <!-- Footer - Desktop Only (fixed at bottom) -->
-            <div class="hidden lg:flex shrink-0 px-4 md:px-8 py-4 border-t border-black dark:border-white/10 flex-row justify-between items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-gray-400 bg-white dark:bg-[#161615]">
+            <div class="hidden lg:flex shrink-0 px-4 md:px-8 py-4 border-t border-black dark:border-white/10 flex-row justify-between items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-gray-600 bg-white dark:bg-[#161615]">
                 <div class="flex items-center gap-4 flex-wrap justify-center md:justify-start">
                     <span>©2025 Andrew Gosselin</span>
                 </div>
