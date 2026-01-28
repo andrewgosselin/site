@@ -18,8 +18,8 @@ class PortfolioController extends Controller
                 
                 // Fix accessibility: Add aria-labels to known image-only links
                 $html = str_replace(
-                    'href="https://cyrexag.com"', 
-                    'href="https://cyrexag.com" aria-label="Cyrex Website" rel="noopener noreferrer"', 
+                    'href="https://gosselin.dev"', 
+                    'href="https://gosselin.dev" aria-label="Portfolio Website" rel="noopener noreferrer"', 
                     $html
                 );
 
@@ -27,6 +27,12 @@ class PortfolioController extends Controller
                     '<img width="175"',
                     '<img alt="Picture of my dog Sadie" width="175"',
                     $html
+                );
+
+                $html = str_replace(
+                    'https://images.weserv.nl/?url=avatars.githubusercontent.com/u/32310481?v=4&h=300&w=300&fit=cover&mask=circle&maxage=7d',
+                    request()->url() . '/assets/branding/sadie.webp',
+                    $html   
                 );
 
                 return $html;
