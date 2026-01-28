@@ -16,26 +16,16 @@ class PortfolioController extends Controller
                 $parsedown = new \Parsedown();
                 $html = $parsedown->text($markdown);
                 
-                // Fix accessibility using DOMDocument (Robust)
-                $dom = new \DOMDocument();
-                // Suppress errors for malformed HTML fragments
-                libxml_use_internal_errors(true);
-                // Hack to force UTF-8: loadHTML expects ISO-8859-1 by default
-                $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-                libxml_clear_errors();
-
-                $images = $dom->getElementsByTagName('img');
-                foreach ($images as $img) {
-                    $img->setAttribute('alt', 'Logo for Andrew Gosselin');
-                }
-                
-                // Save HTML (excluding the XML hack wrapper)
-                $html = $dom->saveHTML($dom->documentElement);
-                
-                // Fix accessibility: Add aria-labels to known image-only links (Regex is fine for this simple case)
+                // Fix accessibility: Add aria-labels to known image-only links
                 $html = str_replace(
                     'href="https://cyrexag.com"', 
                     'href="https://cyrexag.com" aria-label="Cyrex Website" rel="noopener noreferrer"', 
+                    $html
+                );
+
+                $html = str_replace(
+                    '<img width="175"',
+                    '<img alt="Picture of my dog Sadie" width="175"',
                     $html
                 );
 
