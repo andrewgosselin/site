@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import SeoHead from '@/components/SeoHead.vue';
 
 const uploadedFile = ref<File | null>(null);
 const originalImage = ref<HTMLImageElement | null>(null);
@@ -167,7 +168,11 @@ const formatBytes = (bytes: number) => {
 </script>
 
 <template>
-    <Head title="Image Tool" />
+    <SeoHead 
+        title="Image Tool" 
+        description="Convert, resize, crop, and transform images in your browser. Supports PNG, JPEG, and WebP formats."
+        keywords="Image Converter, Image Resizer, Image Cropper, WebP Converter, Developer Tools"
+    />
     <PortfolioLayout :fullWidth="true">
         <div class="p-4 md:p-8 md:pt-2 h-[calc(100vh-140px)] flex flex-col">
             <div class="mb-4 flex items-center gap-2">

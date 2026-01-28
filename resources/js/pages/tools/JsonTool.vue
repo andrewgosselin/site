@@ -4,6 +4,7 @@ import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
 import JsonTreeView from '@/components/tools/JsonTreeView.vue';
 import JsonVisualView from '@/components/tools/JsonVisualView.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import SeoHead from '@/components/SeoHead.vue';
 import yaml from 'js-yaml';
 import { js2xml } from 'xml-js';
 
@@ -111,7 +112,11 @@ const loadSample = () => {
 </script>
 
 <template>
-    <Head title="JSON Tool" />
+    <SeoHead 
+        title="JSON Formatter & Validator" 
+        description="Format, validate, and explore JSON data with a tree view. A free developer tool for parsing and debugging JSON."
+        keywords="JSON Formatter, JSON Validator, JSON Beautifier, JSON Tree View, Developer Tools"
+    />
     <PortfolioLayout :fullWidth="true">
         <div class="p-4 md:p-8 md:pt-2 h-[calc(100vh-140px)] flex flex-col">
             <div class="mb-4 flex items-center gap-2">

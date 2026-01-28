@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import SeoHead from '@/components/SeoHead.vue';
 import axios from 'axios';
 
 interface Sponsor {
@@ -95,7 +96,11 @@ const visiblePages = computed(() => {
 </script>
 
 <template>
-    <Head title="IND Public Register Search" />
+    <SeoHead 
+        title="IND Public Register Search" 
+        description="Search recognised sponsors in the Netherlands IND Public Register for regular labour and highly skilled migrants."
+        keywords="IND Register, Recognised Sponsors, Netherlands Skilled Migrants, Dutch Visa Sponsors, IND Search Tool"
+    />
     <PortfolioLayout :fullWidth="true">
         <div class="min-h-screen bg-white dark:bg-black text-black dark:text-white pb-20">
             <!-- Header -->

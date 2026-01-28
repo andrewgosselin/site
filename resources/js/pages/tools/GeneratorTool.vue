@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import SeoHead from '@/components/SeoHead.vue';
 import { v4 as uuidv4 } from 'uuid';
 import { nanoid } from 'nanoid';
 
@@ -83,7 +84,11 @@ generate();
 </script>
 
 <template>
-    <Head title="Generator Tool" />
+    <SeoHead 
+        title="Generator Tool" 
+        description="Generate random UUIDs (v4), NanoIDs, secure passwords, and cryptographic hashes (MD5, SHA) client-side."
+        keywords="UUID Generator, Password Generator, Hash Generator, NanoID Generator, Developer Tools"
+    />
     <PortfolioLayout :fullWidth="true">
         <div class="p-4 md:p-8 md:pt-2 h-[calc(100vh-140px)] flex flex-col">
             <div class="mb-4 flex items-center gap-2">

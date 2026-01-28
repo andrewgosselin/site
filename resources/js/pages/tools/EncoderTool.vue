@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
+import SeoHead from '@/components/SeoHead.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { jwtDecode } from "jwt-decode";
 
@@ -61,7 +62,11 @@ const labels = {
 </script>
 
 <template>
-    <Head title="Encoder Tool" />
+    <SeoHead 
+        title="Encoder / Decoder" 
+        description="Online tool to encode and decode URL, Base64, JWT, and HTML entities. Secure, client-side processing."
+        keywords="URL Encoder, Base64 Decoder, JWT Decoder, HTML Entity Encoder, Developer Tools"
+    />
     <PortfolioLayout :fullWidth="true">
         <div class="p-4 md:p-8 md:pt-2 h-[calc(100vh-140px)] flex flex-col">
             <div class="mb-4 flex items-center gap-2">
