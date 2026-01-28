@@ -213,7 +213,7 @@ onMounted(() => {
         <div id="sidebar" :class="['hidden absolute left-0 top-0 z-10', fullWidth ? 'hidden' : 'lg:block']">
             <Link href="/" class="brandingContainer block cursor-pointer">
                 <div class="logoContainer">
-                    <img src="/assets/branding/logo.png" alt="Logo">
+                    <img src="/assets/branding/logo.png" alt="Andrew Gosselin Logo" class="object-contain w-full h-full">
                 </div>
                 <!-- Added Ref Binding here -->
                 <div class="title" ref="titleRef">

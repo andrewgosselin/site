@@ -27,7 +27,9 @@ class InjectSeo
             'image' => $config['image'] ?? $defaults['image'],
             'type' => $config['type'] ?? $defaults['type'],
             'twitter_card' => $config['twitter_card'] ?? $defaults['twitter_card'],
-            'url' => $request->url(),
+            'url' => app()->environment('production') 
+                ? str_replace('http://', 'https://', $request->url())
+                : $request->url(),
         ];
 
         // Format title: "Page Title - AppName" or just "AppName"

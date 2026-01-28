@@ -14,7 +14,16 @@ class PortfolioController extends Controller
             try {
                 $markdown = file_get_contents('https://raw.githubusercontent.com/andrewgosselin/andrewgosselin/refs/heads/master/README.md');
                 $parsedown = new \Parsedown();
-                return $parsedown->text($markdown);
+                $html = $parsedown->text($markdown);
+                
+                // Fix accessibility: Add aria-labels to known image-only links
+                $html = str_replace(
+                    'href="https://cyrexag.com"', 
+                    'href="https://cyrexag.com" aria-label="Cyrex Website" rel="noopener noreferrer"', 
+                    $html
+                );
+
+                return $html;
             } catch (\Exception $e) {
                 return '<p>Unable to load README at this time.</p>';
             }
