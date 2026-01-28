@@ -122,7 +122,7 @@ defineProps<{
                 <div
                     class="lg:w-[400px] xl:w-[500px] lg:border-r border-black dark:border-white/10 bg-white dark:bg-[#161615]">
                     <div class="p-8">
-                        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 mb-6">About Me</h2>
+                        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 mb-6">About Me</h2>
                         <div v-html="readme" class="prose prose-sm dark:prose-invert max-w-none
                                 prose-headings:font-bold prose-headings:tracking-tight
                                 prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg

@@ -372,6 +372,7 @@ onMounted(() => {
                     <button 
                         @click="isMobileMenuOpen = false"
                         class="p-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors"
+                        aria-label="Close menu"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 dark:text-[#EDEDEC]">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />

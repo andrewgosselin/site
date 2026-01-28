@@ -23,6 +23,13 @@ class PortfolioController extends Controller
                     $html
                 );
 
+                // Fix accessibility: Add alt text to profile image
+                $html = str_replace(
+                    '<img width="175" height="175" src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/32310481?v=4',
+                    '<img width="175" height="175" alt="Andrew Gosselin" src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/32310481?v=4',
+                    $html
+                );
+
                 return $html;
             } catch (\Exception $e) {
                 return '<p>Unable to load README at this time.</p>';
