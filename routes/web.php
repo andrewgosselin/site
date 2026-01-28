@@ -1,55 +1,33 @@
 <?php
 
-use Illuminate\Support\Facades\Cache;
+use App\Http\Controllers\Portfolio\PortfolioController;
+use App\Http\Controllers\Tools\MetadataController;
+use App\Http\Controllers\Tools\ToolsController;
+use App\Http\Controllers\INDController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    $readme = Cache::remember('github_readme', 3600, function () {
-        try {
-            $markdown = file_get_contents('https://raw.githubusercontent.com/andrewgosselin/andrewgosselin/refs/heads/master/README.md');
-            $parsedown = new \Parsedown();
-            return $parsedown->text($markdown);
-        } catch (\Exception $e) {
-            return '<p>Unable to load README at this time.</p>';
-        }
-    });
+// Tools Routes
+Route::prefix('tools')->name('tools.')->group(function () {
+    Route::get('/', [ToolsController::class, 'index'])->name('index');
+    Route::get('/json', [ToolsController::class, 'json'])->name('json');
+    Route::get('/encoder', [ToolsController::class, 'encoder'])->name('encoder');
+    Route::get('/generator', [ToolsController::class, 'generator'])->name('generator');
+    Route::get('/seo-checker', [ToolsController::class, 'seoChecker'])->name('seo-checker');
+    Route::get('/image', [ToolsController::class, 'image'])->name('image');
+    Route::get('/ind', [INDController::class, 'index'])->name('ind');
+});
 
-    return Inertia::render('portfolio/Home', [
-        'readme' => $readme
-    ]);
-})->name('home');
+// Tools API Routes
+Route::post('/api/tools/fetch-metadata', [MetadataController::class, 'fetch']);
+Route::get('/api/tools/ind-register', [INDController::class, 'fetchRegister']);
 
-Route::get('/projects', function () {
-    return Inertia::render('portfolio/Projects');
-})->name('projects');
+// Portfolio Routes
+Route::get('/', [PortfolioController::class, 'home'])->name('home');
+Route::get('/projects', [PortfolioController::class, 'projects'])->name('projects');
+Route::get('/resume', [PortfolioController::class, 'resume'])->name('resume');
+Route::get('/ideas', [PortfolioController::class, 'ideas'])->name('ideas');
+Route::get('/arcade', [PortfolioController::class, 'arcade'])->name('arcade');
+Route::get('/arcade/{slug}', [PortfolioController::class, 'arcadeView'])->name('arcade.view');
 
-Route::get('/resume', function () {
-    return Inertia::render('portfolio/Resume');
-})->name('resume');
-
-Route::get('/ideas', function () {
-    return Inertia::render('portfolio/Ideas');
-})->name('ideas');
-
-Route::get('/arcade', function () {
-    return Inertia::render('portfolio/Arcade');
-})->name('arcade');
-
-Route::get('/arcade/{slug}', function ($slug) {
-    $games = config('games.games');
-    $game = collect($games)->firstWhere('slug', $slug);
-
-    if (!$game) {
-        abort(404);
-    }
-
-    return Inertia::render('portfolio/GameView', [
-        'game' => $game
-    ]);
-})->name('arcade.view');
-
-// Route::get('/docs', function () {
-//     return Inertia::render('portfolio/ApiDocs');
-// })->name('api.docs');
+Route::get('/docs', [PortfolioController::class, 'apiDocs'])->name('api.docs');
 

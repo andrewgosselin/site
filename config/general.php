@@ -3,7 +3,7 @@
 return [
     "nav_items" => [
         "Home" => "/",
-        "Projects" => "/projects",
+        "Tools" => "/tools",
         "Resume" => "/resume",
         "Arcade" => "/arcade",
         // "API" => "/docs"
