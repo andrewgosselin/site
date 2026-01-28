@@ -94,10 +94,7 @@ defineProps<{
 
 <template>
 
-    <SeoHead 
-        title="Home" 
-        description="Andrew Gosselin - Full Stack Developer based in The Hague, NL. View my portfolio, projects, and skills."
-    />
+    <SeoHead />
 
     <PortfolioLayout mainContainerClass="p-0 h-full flex flex-col">
         <!-- Header -->

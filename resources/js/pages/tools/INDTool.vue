@@ -96,11 +96,7 @@ const visiblePages = computed(() => {
 </script>
 
 <template>
-    <SeoHead 
-        title="IND Public Register Search" 
-        description="Search recognised sponsors in the Netherlands IND Public Register for regular labour and highly skilled migrants."
-        keywords="IND Register, Recognised Sponsors, Netherlands Skilled Migrants, Dutch Visa Sponsors, IND Search Tool"
-    />
+    <SeoHead />
     <PortfolioLayout :fullWidth="true">
         <div class="min-h-screen bg-white dark:bg-black text-black dark:text-white pb-20">
             <!-- Header -->

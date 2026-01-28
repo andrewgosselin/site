@@ -112,11 +112,7 @@ const loadSample = () => {
 </script>
 
 <template>
-    <SeoHead 
-        title="JSON Formatter & Validator" 
-        description="Format, validate, and explore JSON data with a tree view. A free developer tool for parsing and debugging JSON."
-        keywords="JSON Formatter, JSON Validator, JSON Beautifier, JSON Tree View, Developer Tools"
-    />
+    <SeoHead />
     <PortfolioLayout :fullWidth="true">
         <div class="p-4 md:p-8 md:pt-2 h-[calc(100vh-140px)] flex flex-col">
             <div class="mb-4 flex items-center gap-2">

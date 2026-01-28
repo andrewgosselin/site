@@ -2,53 +2,29 @@
 import { Head, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
-const props = withDefaults(defineProps<{
-    title: string;
-    description: string;
-    keywords?: string;
-    image?: string;
-    canonicalUrl?: string; // Optional: Override automatic canonical
-}>(), {
-    keywords: 'Andrew Gosselin, Full Stack Developer, Laravel, Vue, PHP, Web Development, The Hague',
-    image: 'https://gosselin.dev/assets/branding/banner.webp'
-});
-
 const page = usePage();
-
-// Compute canonical URL automatically if not provided
-const computedCanonical = computed(() => {
-    if (props.canonicalUrl) return props.canonicalUrl;
-    
-    // Fallback: Construct from current path. 
-    // Assumes production domain. Modify if needing dynamic domain from props/env.
-    const baseUrl = 'https://gosselin.dev';
-    const path = page.url; // e.g., '/tools/seo-checker'
-    return `${baseUrl}${path}`;
-});
-
-const defaultTitle = "Andrew Gosselin | Full Stack Developer";
-
+const seo = computed(() => page.props.seo as any);
 </script>
 
 <template>
-    <Head :title="title">
-        <meta name="description" :content="description" />
-        <meta name="keywords" :content="keywords" />
+    <Head :title="seo?.title">
+        <meta name="description" :content="seo?.description" />
+        <meta name="keywords" :content="seo?.keywords" />
         
         <!-- Canonical -->
-        <link rel="canonical" :href="computedCanonical" />
+        <link rel="canonical" :href="seo?.url" />
 
         <!-- Open Graph -->
         <meta property="og:type" content="website" />
-        <meta property="og:url" :content="computedCanonical" />
-        <meta property="og:title" :content="title ? `${title} - Andrew Gosselin` : defaultTitle" />
-        <meta property="og:description" :content="description" />
-        <meta property="og:image" :content="image" />
+        <meta property="og:url" :content="seo?.url" />
+        <meta property="og:title" :content="seo?.full_title" />
+        <meta property="og:description" :content="seo?.description" />
+        <meta property="og:image" :content="seo?.image" />
 
         <!-- Twitter -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" :content="title ? `${title} - Andrew Gosselin` : defaultTitle" />
-        <meta name="twitter:description" :content="description" />
-        <meta name="twitter:image" :content="image" />
+        <meta name="twitter:card" :content="seo?.twitter_card" />
+        <meta name="twitter:title" :content="seo?.full_title" />
+        <meta name="twitter:description" :content="seo?.description" />
+        <meta name="twitter:image" :content="seo?.image" />
     </Head>
 </template>

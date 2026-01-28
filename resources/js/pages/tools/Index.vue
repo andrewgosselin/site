@@ -50,10 +50,7 @@ const tools = [
 </script>
 
 <template>
-    <SeoHead 
-        title="Tools" 
-        description="A collection of developer utilities including JSON tools, Encoders, Generators, and SEO Checkers."
-    />
+    <SeoHead />
     <PortfolioLayout>
         <div class="p-4 md:p-8 md:pt-12 max-w-7xl mx-auto">
             <div class="mb-12">

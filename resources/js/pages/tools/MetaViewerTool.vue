@@ -97,11 +97,7 @@ const discordPreview = computed(() => {
 </script>
 
 <template>
-    <SeoHead 
-        title="SEO Checker" 
-        description="Analyze and preview how your website appears in Google Search, Twitter, standard social media (Open Graph), and Discord."
-        keywords="SEO Tool, Meta Tag Checker, Open Graph Preview, Twitter Card Preview, Discord Embed Preview"
-    />
+    <SeoHead />
     <PortfolioLayout :fullWidth="true">
         <div class="p-4 md:p-8 md:pt-2 min-h-[calc(100vh-140px)] flex flex-col">
             <div class="mb-4 flex items-center gap-2">

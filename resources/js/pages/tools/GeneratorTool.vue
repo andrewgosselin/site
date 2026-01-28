@@ -84,11 +84,7 @@ generate();
 </script>
 
 <template>
-    <SeoHead 
-        title="Generator Tool" 
-        description="Generate random UUIDs (v4), NanoIDs, secure passwords, and cryptographic hashes (MD5, SHA) client-side."
-        keywords="UUID Generator, Password Generator, Hash Generator, NanoID Generator, Developer Tools"
-    />
+    <SeoHead />
     <PortfolioLayout :fullWidth="true">
         <div class="p-4 md:p-8 md:pt-2 h-[calc(100vh-140px)] flex flex-col">
             <div class="mb-4 flex items-center gap-2">

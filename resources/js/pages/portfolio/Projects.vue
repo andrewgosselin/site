@@ -10,10 +10,7 @@ const activeTab = ref<'portfolio' | 'lab'>('portfolio');
 </script>
 
 <template>
-    <SeoHead 
-        title="Projects" 
-        description="Explore my portfolio of web development projects, including Laravel, Vue.js, and other web applications."
-    />
+    <SeoHead />
 
     <PortfolioLayout mainContainerClass="p-0">
         <!-- Header / Hero -->

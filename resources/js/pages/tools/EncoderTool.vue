@@ -62,11 +62,7 @@ const labels = {
 </script>
 
 <template>
-    <SeoHead 
-        title="Encoder / Decoder" 
-        description="Online tool to encode and decode URL, Base64, JWT, and HTML entities. Secure, client-side processing."
-        keywords="URL Encoder, Base64 Decoder, JWT Decoder, HTML Entity Encoder, Developer Tools"
-    />
+    <SeoHead />
     <PortfolioLayout :fullWidth="true">
         <div class="p-4 md:p-8 md:pt-2 h-[calc(100vh-140px)] flex flex-col">
             <div class="mb-4 flex items-center gap-2">

@@ -39,6 +39,7 @@ class InjectSeo
         }
 
         view()->share('seo', $seo);
+        \Inertia\Inertia::share('seo', $seo);
 
         return $next($request);
     }
