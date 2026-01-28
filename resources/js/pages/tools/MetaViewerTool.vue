@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import axios from 'axios';
@@ -36,6 +36,63 @@ const getDomain = (urlString: string) => {
         return urlString;
     }
 };
+
+// --- Computed Previews with Fallbacks ---
+
+// Generic Helper
+const getMeta = (key: string, type: 'twitter' | 'openGraph' | 'root' = 'root') => {
+    if (!metadata.value) return null;
+    if (type === 'root') return metadata.value[key];
+    return metadata.value[type]?.[key];
+};
+
+const displayDomain = computed(() => getDomain(url.value));
+
+const twitterPreview = computed(() => {
+    if (!metadata.value) return null;
+    
+    const t = metadata.value.twitter || {};
+    const og = metadata.value.openGraph || {};
+    const m = metadata.value;
+
+    return {
+        title: t.title || og.title || m.title,
+        description: t.description || og.description || m.description,
+        image: t.image || og.image,
+        card: t.card || (t.image || og.image ? 'summary_large_image' : 'summary'),
+        domain: displayDomain.value
+    };
+});
+
+const linkedinPreview = computed(() => {
+    if (!metadata.value) return null;
+    
+    const og = metadata.value.openGraph || {};
+    const m = metadata.value;
+
+    return {
+        title: og.title || m.title,
+        description: og.description || m.description, // LinkedIn often truncates this heavily
+        image: og.image || m.twitter?.image,
+        domain: displayDomain.value
+    };
+});
+
+const discordPreview = computed(() => {
+    if (!metadata.value) return null;
+    
+    const og = metadata.value.openGraph || {};
+    const m = metadata.value;
+
+    return {
+        title: og.title || m.title,
+        description: og.description || m.description,
+        image: og.image || m.twitter?.image,
+        siteName: og.site_name || displayDomain.value,
+        themeColor: '#2B2D31' // Default Discord embed background
+    };
+});
+
 </script>
 
 <template>
@@ -75,98 +132,176 @@ const getDomain = (urlString: string) => {
             </div>
 
             <!-- Results -->
-            <div v-if="metadata" class="space-y-6">
-                <!-- Browser Tab Preview -->
-                <div class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
-                    <h2 class="text-lg font-bold mb-4 dark:text-white">Browser Tab</h2>
-                    <div class="flex items-center gap-3 bg-white dark:bg-black/20 p-3 rounded-lg border border-gray-200 dark:border-white/10">
-                        <img 
-                            v-if="metadata.favicon" 
-                            :src="metadata.favicon" 
-                            alt="Favicon"
-                            class="w-4 h-4"
-                            @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
-                        />
-                        <div v-else class="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
-                        <span class="text-sm font-medium dark:text-gray-300 truncate">{{ metadata.title || 'Untitled' }}</span>
-                    </div>
-                </div>
-
-                <!-- Google Search Result Preview -->
-                <div class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
-                    <h2 class="text-lg font-bold mb-4 dark:text-white">Google Search Result</h2>
-                    <div class="bg-white dark:bg-black/20 p-4 rounded-lg border border-gray-200 dark:border-white/10">
-                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ getDomain(url) }}</div>
-                        <h3 class="text-xl text-blue-600 dark:text-blue-400 mb-2 hover:underline cursor-pointer">
-                            {{ metadata.title || 'Untitled Page' }}
-                        </h3>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">
-                            {{ metadata.description || 'No description available' }}
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Open Graph / Facebook Preview -->
-                <div v-if="metadata.openGraph && Object.keys(metadata.openGraph).length > 0" class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
-                    <h2 class="text-lg font-bold mb-4 dark:text-white">Open Graph (Facebook/LinkedIn)</h2>
-                    <div class="bg-white dark:bg-black/20 rounded-lg border border-gray-200 dark:border-white/10 overflow-hidden">
-                        <img 
-                            v-if="metadata.openGraph.image" 
-                            :src="metadata.openGraph.image" 
-                            alt="OG Image"
-                            class="w-full h-48 object-cover"
-                            @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
-                        />
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 dark:text-gray-400 mb-1 uppercase">{{ getDomain(url) }}</div>
-                            <h3 class="font-bold text-lg mb-1 dark:text-white">{{ metadata.openGraph.title || metadata.title }}</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-300">{{ metadata.openGraph.description || metadata.description }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Twitter Card Preview -->
-                <div v-if="metadata.twitter && Object.keys(metadata.twitter).length > 0" class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
-                    <h2 class="text-lg font-bold mb-4 dark:text-white">Twitter Card</h2>
-                    <div class="bg-white dark:bg-black/20 rounded-lg border border-gray-200 dark:border-white/10 overflow-hidden">
-                        <img 
-                            v-if="metadata.twitter.image" 
-                            :src="metadata.twitter.image" 
-                            alt="Twitter Image"
-                            class="w-full h-48 object-cover"
-                            @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
-                        />
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-1 dark:text-white">{{ metadata.twitter.title || metadata.title }}</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">{{ metadata.twitter.description || metadata.description }}</p>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">{{ getDomain(url) }}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Structured Data -->
-                <div v-if="metadata.structuredData && metadata.structuredData.length > 0" class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
-                    <h2 class="text-lg font-bold mb-4 dark:text-white">Structured Data (JSON-LD)</h2>
-                    <div class="space-y-3">
-                        <div v-for="(data, index) in metadata.structuredData" :key="index" class="bg-white dark:bg-black/20 p-4 rounded-lg border border-gray-200 dark:border-white/10">
-                            <div class="text-xs font-mono text-gray-500 dark:text-gray-400 mb-2">
-                                Type: {{ data['@type'] || 'Unknown' }}
+            <div v-if="metadata" class="space-y-8">
+                
+                <!-- 1. Search Results -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Google Search Result Preview -->
+                    <div class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
+                        <h2 class="text-lg font-bold mb-4 dark:text-white flex items-center gap-2">
+                            <span class="text-xl">🔍</span> Google Search
+                        </h2>
+                        <div class="bg-white dark:bg-[#1f1f1f] p-4 rounded-lg border border-gray-200 dark:border-white/5">
+                            <div class="flex items-center gap-2 mb-1">
+                                <div class="bg-gray-100 dark:bg-gray-700 w-7 h-7 rounded-full flex items-center justify-center overflow-hidden">
+                                    <img 
+                                        v-if="metadata.favicon" 
+                                        :src="metadata.favicon" 
+                                        alt="Favicon"
+                                        class="w-4 h-4 object-contain"
+                                        @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
+                                    />
+                                    <span v-else class="text-[10px] text-gray-500">?</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-sm text-gray-900 dark:text-[#dadce0] leading-tight">{{ metadata.title || 'Untitled' }}</span>
+                                    <span class="text-xs text-gray-500 dark:text-[#bdc1c6] leading-tight">{{ url }}</span>
+                                </div>
                             </div>
-                            <pre class="text-xs font-mono overflow-x-auto dark:text-gray-300">{{ JSON.stringify(data, null, 2) }}</pre>
+                            <h3 class="text-xl text-[#1a0dab] dark:text-[#8ab4f8] hover:underline cursor-pointer mb-1 truncate">
+                                {{ metadata.title || 'Untitled Page' }}
+                            </h3>
+                            <p class="text-sm text-[#4d5156] dark:text-[#bdc1c6] line-clamp-2">
+                                {{ metadata.description || 'No description available for this page.' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Browser Tab Preview -->
+                    <div class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
+                         <h2 class="text-lg font-bold mb-4 dark:text-white flex items-center gap-2">
+                            <span class="text-xl">🌐</span> Browser Tab
+                        </h2>
+                        <div class="bg-gray-200 dark:bg-gray-800 p-2 rounded-t-lg flex gap-2">
+                            <div class="bg-white dark:bg-[#1f1f1f] pl-3 pr-8 py-2 rounded-lg flex items-center gap-2 max-w-[240px] border-t border-x border-gray-300 dark:border-black/50 shadow-sm">
+                                <img 
+                                    v-if="metadata.favicon" 
+                                    :src="metadata.favicon" 
+                                    alt="Favicon"
+                                    class="w-4 h-4"
+                                    @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
+                                />
+                                <div v-else class="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                                <span class="text-xs font-medium dark:text-gray-300 truncate">{{ metadata.title || 'Untitled' }}</span>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-[#1f1f1f] h-[100px] border-x border-b border-gray-200 dark:border-white/10 rounded-b-lg flex items-center justify-center text-gray-400 text-sm">
+                            Page Content Info...
                         </div>
                     </div>
                 </div>
 
-                <!-- All Meta Tags -->
-                <details class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
-                    <summary class="text-lg font-bold cursor-pointer dark:text-white">All Meta Tags ({{ metadata.allMeta?.length || 0 }})</summary>
-                    <div class="mt-4 space-y-2">
-                        <div v-for="(meta, index) in metadata.allMeta" :key="index" class="bg-white dark:bg-black/20 p-3 rounded-lg border border-gray-200 dark:border-white/10">
-                            <div class="text-xs font-bold text-gray-600 dark:text-gray-400 mb-1">{{ meta.name }}</div>
-                            <div class="text-sm dark:text-gray-300">{{ meta.content }}</div>
+                <!-- 2. Social Previews Grid -->
+                <div>
+                     <h2 class="text-xl font-bold mb-4 dark:text-white border-b dark:border-white/10 pb-2">Social Media Previews</h2>
+                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        
+                        <!-- Twitter Card -->
+                        <div class="space-y-2">
+                            <h3 class="font-bold text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wider">Twitter / X</h3>
+                            <div class="bg-black/5 dark:bg-white/5 rounded-xl overflow-hidden border border-gray-200 dark:border-white/10 max-w-sm">
+                                <!-- Image at Top (Large Card) -->
+                                <div v-if="twitterPreview?.image" class="aspect-[2/1] w-full bg-gray-200 dark:bg-gray-800 relative overflow-hidden">
+                                     <img 
+                                        :src="twitterPreview.image" 
+                                        class="w-full h-full object-cover"
+                                        alt="Twitter Preview"
+                                        @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
+                                    />
+                                    <div class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1 rounded">
+                                        {{ displayDomain }}
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-black font-sans">
+                                    <!-- Domain usually shows if no image, but with large image it's sometimes different. Let's simplify -->
+                                    <div v-if="!twitterPreview?.image" class="text-gray-500 text-sm mb-1">{{ displayDomain }}</div>
+                                    <h4 class="font-bold text-black dark:text-white leading-tight mb-1 line-clamp-2">
+                                        {{ twitterPreview?.title || 'No Title' }}
+                                    </h4>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 leading-snug">
+                                        {{ twitterPreview?.description || 'No description available' }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Facebook / LinkedIn -->
+                        <div class="space-y-2">
+                            <h3 class="font-bold text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wider">LinkedIn / Facebook</h3>
+                            <div class="bg-white dark:bg-[#1f1f1f] border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden max-w-sm shadow-sm cursor-pointer">
+                                 <div v-if="linkedinPreview?.image" class="aspect-[1.91/1] w-full bg-gray-200 dark:bg-gray-700 relative">
+                                    <img 
+                                        :src="linkedinPreview.image" 
+                                        class="w-full h-full object-cover"
+                                        alt="LinkedIn Preview"
+                                        @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
+                                    />
+                                </div>
+                                <div class="p-3 bg-[#fdfdfd] dark:bg-[#2b2b2b] border-t border-gray-100 dark:border-white/5">
+                                    <div class="text-xs font-bold text-gray-900 dark:text-[#dadce0] truncate mb-1">
+                                        {{ linkedinPreview?.title || 'No Title' }}
+                                    </div>
+                                    <div class="text-xs text-gray-500 dark:text-[#bdc1c6] truncate">
+                                        {{ displayDomain }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Discord / Slack -->
+                        <div class="space-y-2">
+                            <h3 class="font-bold text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wider">Discord / Slack</h3>
+                            <div class="bg-[#313338] rounded flex max-w-sm pl-1 py-0 overflow-hidden text-left" style="border-left: 4px solid #1e1f22;">
+                                <div class="p-3 md:pr-4 flex-1 min-w-0">
+                                    <div class="text-xs font-medium text-[#b5bac1] mb-1.5">{{ discordPreview?.siteName || displayDomain }}</div>
+                                    <div class="text-[#00b0f4] font-semibold text-sm hover:underline cursor-pointer mb-1.5 line-clamp-2">
+                                        {{ discordPreview?.title || 'No Title' }}
+                                    </div>
+                                    <div class="text-[#dbdee1] text-xs leading-relaxed line-clamp-4 mb-2">
+                                        {{ discordPreview?.description || 'No description available' }}
+                                    </div>
+                                    <img v-if="discordPreview?.image" 
+                                        :src="discordPreview.image" 
+                                        class="rounded-lg max-w-full max-h-[200px] object-cover border border-[#1e1f22]"
+                                        alt="Discord Image"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                     </div>
+                </div>
+
+                <!-- 3. Technical Data -->
+                 <div>
+                    <h2 class="text-xl font-bold mb-4 dark:text-white border-b dark:border-white/10 pb-2">Technical Details</h2>
+                    <div class="space-y-4">
+                        <!-- Structured Data -->
+                        <div v-if="metadata.structuredData && metadata.structuredData.length > 0" class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
+                            <h2 class="text-lg font-bold mb-4 dark:text-white">Structured Data (JSON-LD)</h2>
+                            <div class="space-y-3">
+                                <div v-for="(data, index) in metadata.structuredData" :key="index" class="bg-white dark:bg-black/20 p-4 rounded-lg border border-gray-200 dark:border-white/10">
+                                    <div class="text-xs font-mono text-gray-500 dark:text-gray-400 mb-2">
+                                        Type: {{ data['@type'] || 'Unknown' }}
+                                    </div>
+                                    <pre class="text-xs font-mono overflow-x-auto dark:text-gray-300 max-h-64">{{ JSON.stringify(data, null, 2) }}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- All Meta Tags -->
+                        <details class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6">
+                            <summary class="text-lg font-bold cursor-pointer dark:text-white">Raw Meta Tags ({{ metadata.allMeta?.length || 0 }})</summary>
+                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <div v-for="(meta, index) in metadata.allMeta" :key="index" class="bg-white dark:bg-black/20 p-3 rounded-lg border border-gray-200 dark:border-white/10">
+                                    <div class="text-xs font-bold text-blue-600 dark:text-blue-400 mb-1 break-all">{{ meta.name }}</div>
+                                    <div class="text-sm dark:text-gray-300 break-words font-mono text-xs">{{ meta.content }}</div>
+                                </div>
+                            </div>
+                        </details>
                     </div>
-                </details>
+                 </div>
+
             </div>
 
             <!-- Empty State -->
