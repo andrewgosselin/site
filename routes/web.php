@@ -20,6 +20,7 @@ Route::prefix('tools')->name('tools.')->group(function () {
 // Tools API Routes
 Route::post('/api/tools/fetch-metadata', [MetadataController::class, 'fetch']);
 Route::get('/api/tools/ind-register', [INDController::class, 'fetchRegister']);
+Route::get('/api/tools/ind-search', [INDController::class, 'search']);
 
 // Portfolio Routes
 Route::get('/', [PortfolioController::class, 'home'])->name('home');

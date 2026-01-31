@@ -23,11 +23,80 @@ class INDController extends Controller
      * Fetch and parse the IND public register.
      * Cached for 24 hours.
      *
+     * @unauthenticated
      * @return \Illuminate\Http\JsonResponse
      */
     public function fetchRegister(Request $request)
     {
-        $data = Cache::remember('ind_register_data', 60 * 60 * 24, function () {
+        $request->validate([
+            'search' => 'nullable|string',
+        ]);
+
+        $data = $this->getRegisterData();
+
+        // Filter results if search query is present (legacy support)
+        if ($request->has('search')) {
+            $search = strtolower($request->get('search'));
+            $data = array_values(array_filter($data, function ($item) use ($search) {
+                return str_contains(strtolower($item['name']), $search) ||
+                    str_contains($item['kvk_number'], $search);
+            }));
+        }
+
+        return response()->json($data);
+    }
+
+    /**
+     * Search the IND register by name or KvK.
+     *
+     * @unauthenticated
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search(Request $request)
+    {
+        $request->validate([
+            'name' => 'nullable|string',
+            'kvk' => 'nullable|string',
+            'q' => 'nullable|string',
+        ]);
+
+        $data = $this->getRegisterData();
+        $results = $data;
+
+        if ($request->has('name')) {
+            $name = strtolower($request->get('name'));
+            $results = array_filter($results, function ($item) use ($name) {
+                return str_contains(strtolower($item['name']), $name);
+            });
+        }
+
+        if ($request->has('kvk')) {
+            $kvk = $request->get('kvk');
+            $results = array_filter($results, function ($item) use ($kvk) {
+                return str_contains($item['kvk_number'], $kvk);
+            });
+        }
+
+        // General search fallback
+        if ($request->has('q')) {
+            $search = strtolower($request->get('q'));
+            $results = array_filter($results, function ($item) use ($search) {
+                return str_contains(strtolower($item['name']), $search) ||
+                    str_contains($item['kvk_number'], $search);
+            });
+        }
+
+        return response()->json(array_values($results));
+    }
+
+    /**
+     * Get the cached IND register data.
+     * 
+     * @return array
+     */
+    private function getRegisterData()
+    {
+        return Cache::remember('ind_register_data', 60 * 60 * 24, function () {
             $url = 'https://ind.nl/en/public-register-recognised-sponsors/public-register-regular-labour-and-highly-skilled-migrants';
 
             // Fetch the page content with a generic Chrome user agent
@@ -84,16 +153,5 @@ class INDController extends Controller
 
             return $results;
         });
-
-        // Filter results if search query is present
-        if ($request->has('search')) {
-            $search = strtolower($request->get('search'));
-            $data = array_values(array_filter($data, function ($item) use ($search) {
-                return str_contains(strtolower($item['name']), $search) ||
-                    str_contains($item['kvk_number'], $search);
-            }));
-        }
-
-        return response()->json($data);
     }
 }

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import SeoHead from '@/components/SeoHead.vue';
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
 </script>
 
 <template>
-    <Head title="API Documentation" />
-
+    <SeoHead />
+    
     <PortfolioLayout mainContainerClass="p-0 overflow-hidden">
         <div class="w-full h-full flex flex-col bg-white dark:bg-[#161615]">
             <iframe 
