@@ -3,7 +3,7 @@
 use App\Http\Controllers\Portfolio\PortfolioController;
 use App\Http\Controllers\Tools\MetadataController;
 use App\Http\Controllers\Tools\ToolsController;
-use App\Http\Controllers\INDController;
+use App\Http\Controllers\Tools\INDController;
 use Illuminate\Support\Facades\Route;
 
 // Tools Routes
