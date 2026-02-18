@@ -38,6 +38,8 @@ class SpotifyPlaylist extends Model
         $filename = "{$safeArtist} - {$safeTitle}.mp3";
         $outputPath = $downloadFolder . '/' . $filename;
 
+        $cookiePath = storage_path('app/generic-yt-cookie.txt');
+
         // Command: yt-dlp -x --audio-format mp3 --output "path/to/file.mp3" "ytsearch1:artist title"
         // We'll use the venv python to run yt-dlp module if possible, or just the binary.
         // The check `ls ~/.local/share/spotify-downloader/venv/bin/yt-dlp` passed.
@@ -53,6 +55,8 @@ class SpotifyPlaylist extends Model
             "ytsearch",
             // Embed Metadata
             '--embed-metadata',
+            '--cookies',
+            $cookiePath
         ];
 
         // Add FFmpeg metadata args if provided
