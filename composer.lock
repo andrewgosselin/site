@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6114d6cc3347ba978dc765253ea3dca1",
+    "content-hash": "80bf8e8a2c5530f8efb744ede6ee164c",
     "packages": [
         {
             "name": "brick/math",
@@ -1181,6 +1181,82 @@
                 }
             ],
             "time": "2025-08-22T14:27:06+00:00"
+        },
+        {
+            "name": "houdaslassi/vantage",
+            "version": "v0.1.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/houdaslassi/vantage.git",
+                "reference": "b36fcccd364c0581bb02c006c9616605a073ed50"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/houdaslassi/vantage/zipball/b36fcccd364c0581bb02c006c9616605a073ed50",
+                "reference": "b36fcccd364c0581bb02c006c9616605a073ed50",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/events": "^10.0|^11.0|^12.0",
+                "illuminate/notifications": "^10.0|^11.0|^12.0",
+                "illuminate/queue": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.2|^8.3|^8.4"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.14",
+                "orchestra/testbench": "^10.0|^9.0|^8.0",
+                "pestphp/pest": "^3.8",
+                "pestphp/pest-plugin-arch": "^3.0",
+                "pestphp/pest-plugin-laravel": "^3.0",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Vantage": "HoudaSlassi\\Vantage\\Facades\\Vantage"
+                    },
+                    "providers": [
+                        "HoudaSlassi\\Vantage\\VantageServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HoudaSlassi\\Vantage\\": "src/",
+                    "HoudaSlassi\\Vantage\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Houda Slassi",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vantage: Strategic queue monitoring and observability for Laravel applications.",
+            "homepage": "https://github.com/houdaslassi/vantage",
+            "keywords": [
+                "houdaslassi",
+                "laravel",
+                "monitoring",
+                "observability",
+                "queue",
+                "vantage"
+            ],
+            "support": {
+                "issues": "https://github.com/houdaslassi/vantage/issues",
+                "source": "https://github.com/houdaslassi/vantage/tree/v0.1.22"
+            },
+            "time": "2025-12-12T18:06:23+00:00"
         },
         {
             "name": "inertiajs/inertia-laravel",

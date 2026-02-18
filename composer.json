@@ -12,6 +12,7 @@
         "php": "^8.3",
         "dedoc/scramble": "^0.13.10",
         "erusev/parsedown": "^1.7",
+        "houdaslassi/vantage": "^0.1.22",
         "inertiajs/inertia-laravel": "^1.0|^2.0",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
