@@ -40,6 +40,13 @@ const tools = [
         color: 'bg-pink-500',
     },
     {
+        name: 'PDF Tool',
+        description: 'View PDFs and splice each page with global or per-page lines.',
+        href: '/tools/pdf',
+        icon: 'pi pi-file-pdf',
+        color: 'bg-red-500',
+    },
+    {
         name: 'Spotify Downloader',
         description: 'Download your favorite playlists and tracks from Spotify.',
         href: '/tools/spotify',

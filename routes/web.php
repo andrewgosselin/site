@@ -15,6 +15,7 @@ Route::prefix('tools')->name('tools.')->group(function () {
     Route::get('/generator', [ToolsController::class, 'generator'])->name('generator');
     Route::get('/seo-checker', [ToolsController::class, 'seoChecker'])->name('seo-checker');
     Route::get('/image', [ToolsController::class, 'image'])->name('image');
+    Route::get('/pdf', [ToolsController::class, 'pdf'])->name('pdf');
     Route::get('/ind', [INDController::class, 'index'])->name('ind');
 
     // Spotify Tool
@@ -25,6 +26,7 @@ Route::prefix('tools')->name('tools.')->group(function () {
 
 // Tools API Routes
 Route::post('/api/tools/fetch-metadata', [MetadataController::class, 'fetch']);
+Route::post('/api/tools/pdf/translate-text', [ToolsController::class, 'translateText']);
 Route::get('/api/tools/ind-register', [INDController::class, 'fetchRegister']);
 Route::get('/api/tools/ind-search', [INDController::class, 'search']);
 Route::get('/api/tools/spotify/playlists', [SpotifyController::class, 'playlists'])->name('api.spotify.playlists');

@@ -40,6 +40,8 @@
         "jwt-decode": "^4.0.0",
         "laravel-vite-plugin": "^2.1.0",
         "nanoid": "^5.1.6",
+        "pdf-lib": "^1.17.1",
+        "pdfjs-dist": "^5.5.207",
         "primeicons": "^7.0.0",
         "tailwind-merge": "^3.4.0",
         "tailwindcss": "^4.1.18",
