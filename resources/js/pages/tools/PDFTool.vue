@@ -102,14 +102,20 @@ const setFile = async (file: File) => {
 
         for (let pageNumber = 1; pageNumber <= pdfDocument.numPages; pageNumber++) {
             const page = await pdfDocument.getPage(pageNumber);
-            const viewport = page.getViewport({ scale: 1.15 });
+            const baseViewport = page.getViewport({ scale: 1 });
+            const maxDim = 2048;
+            const scale = Math.min(
+                2,
+                maxDim / Math.max(baseViewport.width, baseViewport.height, 1)
+            );
+            const viewport = page.getViewport({ scale });
             const canvas = document.createElement('canvas');
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
+            canvas.width = Math.floor(viewport.width);
+            canvas.height = Math.floor(viewport.height);
             const context = canvas.getContext('2d');
             if (!context) continue;
 
-            await page.render({ canvasContext: context, viewport }).promise;
+            await page.render({ canvasContext: context, viewport, canvas }).promise;
             renderedPages.push({ pageNumber, previewUrl: canvas.toDataURL('image/png'), customSplitRatio: null });
         }
 
@@ -172,7 +178,9 @@ const applyGlobalToAllPages = () => {
 };
 
 const downloadBytes = (bytes: Uint8Array, suffix: string) => {
-    const blob = new Blob([bytes], { type: 'application/pdf' });
+    // Use a sliced ArrayBuffer to satisfy strict BlobPart typings
+    const buffer = bytes.slice().buffer;
+    const blob = new Blob([buffer], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     const originalName = uploadedFile.value?.name.replace(/\.pdf$/i, '') || 'document';
@@ -353,7 +361,7 @@ onBeforeUnmount(() => {
                             <h2 class="text-sm font-bold tracking-wider uppercase dark:text-white">Tool</h2>
                             <div class="grid grid-cols-2 gap-2">
                                 <button type="button" class="rounded-lg border px-2 py-2 text-xs font-medium" :class="operationMode === 'splice' ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black' : 'border-gray-200 dark:border-white/20 dark:text-white'" @click="operationMode = 'splice'">Splice</button>
-                                <button type="button" class="rounded-lg border px-2 py-2 text-xs font-medium" :class="operationMode === 'translate' ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black' : 'border-gray-200 dark:border-white/20 dark:text-white'" @click="operationMode = 'translate'">Translate</button>
+                                <!-- <button type="button" class="rounded-lg border px-2 py-2 text-xs font-medium" :class="operationMode === 'translate' ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black' : 'border-gray-200 dark:border-white/20 dark:text-white'" @click="operationMode = 'translate'">Translate</button> -->
                             </div>
                         </div>
 
@@ -461,7 +469,7 @@ onBeforeUnmount(() => {
                     </p>
                 </div>
 
-                <div class="min-h-0 min-w-0 flex-1 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-white/10 dark:bg-white/5">
+                <div class="min-h-0 min-w-0 flex-1 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-white/10 dark:bg-white/5 min-h-[50vh] lg:min-h-0">
                     <div v-if="!hasPdf" class="flex h-full items-center justify-center text-center text-gray-400">
                         <div>
                             <p class="text-lg font-medium">Upload a PDF to preview and splice pages</p>
@@ -486,8 +494,8 @@ onBeforeUnmount(() => {
                                 </label>
                             </div>
 
-                            <div class="group relative overflow-hidden rounded-lg border border-gray-200 bg-gray-100 dark:border-white/10 dark:bg-black/40" :class="operationMode === 'splice' ? splitDirection === 'vertical' ? 'cursor-col-resize' : 'cursor-row-resize' : 'cursor-default'" @mousedown="(event) => beginLineDrag(page.pageNumber, event)">
-                                <img :src="page.previewUrl" :alt="`PDF page ${page.pageNumber}`" class="w-full select-none" draggable="false" />
+                            <div class="group relative flex min-h-[200px] overflow-hidden rounded-lg border border-gray-200 bg-gray-100 dark:border-white/10 dark:bg-black/40" :class="operationMode === 'splice' ? splitDirection === 'vertical' ? 'cursor-col-resize' : 'cursor-row-resize' : 'cursor-default'" @mousedown="(event) => beginLineDrag(page.pageNumber, event)">
+                                <img :src="page.previewUrl" :alt="`PDF page ${page.pageNumber}`" class="h-auto w-full select-none object-contain" draggable="false" />
                                 <div v-if="operationMode === 'splice'" class="pointer-events-none absolute border-red-500" :class="splitDirection === 'vertical' ? 'top-0 bottom-0 border-l-2' : 'left-0 right-0 border-t-2'" :style="splitDirection === 'vertical' ? { left: `${getEffectiveSplitRatio(page) * 100}%` } : { top: `${getEffectiveSplitRatio(page) * 100}%` }">
                                     <span class="absolute rounded bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white" :class="splitDirection === 'vertical' ? 'top-2 left-2' : '-top-6 right-2'">{{ Math.round(getEffectiveSplitRatio(page) * 100) }}%</span>
                                 </div>

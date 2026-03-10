@@ -147,14 +147,14 @@ declare global {
 }
 
 onMounted(() => {
-    // Theme Init
+    // Theme Init - default to dark unless user explicitly chose light
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        isDark.value = true;
-        document.documentElement.classList.add('dark');
-    } else {
+    if (savedTheme === 'light') {
         isDark.value = false;
         document.documentElement.classList.remove('dark');
+    } else {
+        isDark.value = true;
+        document.documentElement.classList.add('dark');
     }
 
     // Branding Animation Sequence
