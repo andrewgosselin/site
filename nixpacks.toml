@@ -167,6 +167,11 @@ http {
             access_log off;
         }
 
+        # Ensure Vite-built .mjs assets (like pdf.js worker) are served with a JS MIME type
+        location ~ ^/build/.*\.mjs$ {
+            default_type application/javascript;
+        }
+
         location = /favicon.ico { access_log off; log_not_found off; }
         location = /robots.txt  { access_log off; log_not_found off; }
      
