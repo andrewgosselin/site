@@ -1,0 +1,2 @@
+# This file is kept for parity with nixpacks.toml.
+# start.sh renders /etc/nginx.conf directly using PORT/NIXPACKS_* env vars.
