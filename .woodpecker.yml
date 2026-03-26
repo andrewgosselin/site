@@ -30,7 +30,7 @@ steps:
       branch:
         - master
 
-  - name: docker-publish-tag-
+  - name: docker-publish-tag
     image: woodpeckerci/plugin-docker-buildx
     settings:
       repo: andrewgosselin/portfolio
