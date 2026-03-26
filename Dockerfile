@@ -1,6 +1,7 @@
 FROM composer:2 AS vendor
 WORKDIR /app
 COPY composer.json composer.lock ./
+COPY . .
 RUN composer install --no-dev --prefer-dist --no-interaction --no-ansi --optimize-autoloader
 
 FROM php:8.3-cli-bookworm AS frontend
