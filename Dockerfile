@@ -3,7 +3,7 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --prefer-dist --no-interaction --no-ansi --optimize-autoloader
 
-FROM composer:2 AS frontend
+FROM php:8.3-cli-bookworm AS frontend
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates \
   && rm -rf /var/lib/apt/lists/* \
@@ -14,9 +14,7 @@ RUN bun install --frozen-lockfile
 COPY . .
 COPY --from=vendor /app/vendor /app/vendor
 # wayfinder generation runs via vite plugin and needs php + artisan bootstrapping.
-ENV APP_ENV=production \
-    APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
-RUN bun run build
+RUN APP_ENV=production APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA= bun run build
 
 FROM php:8.3-fpm-bookworm
 
