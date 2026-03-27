@@ -76,6 +76,12 @@ http {
 EOF
 
 cd /app
+mkdir -p \
+  /app/storage/framework/cache/data \
+  /app/storage/framework/sessions \
+  /app/storage/framework/views \
+  /app/storage/logs \
+  /app/bootstrap/cache
 php artisan cache:clear || true
 php artisan migrate --force
 chown -R www-data:www-data /app/storage /app/bootstrap/cache
