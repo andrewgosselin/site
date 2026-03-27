@@ -18,6 +18,7 @@ COPY --from=vendor /app/vendor /app/vendor
 RUN APP_ENV=production APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA= bun run build
 
 FROM php:8.3-fpm-bookworm
+ARG PHP_EXT_JOBS=2
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
@@ -33,7 +34,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     ca-certificates \
   && docker-php-ext-configure gd --with-freetype --with-jpeg \
-  && docker-php-ext-install -j"$(nproc)" intl pdo_mysql pdo_sqlite zip gd bcmath opcache pcntl \
+  && docker-php-ext-install -j"${PHP_EXT_JOBS}" intl pdo_mysql pdo_sqlite zip gd bcmath opcache pcntl \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

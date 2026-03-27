@@ -6,6 +6,12 @@ steps:
       dockerfile: Dockerfile
       context: .
       dry_run: true
+      build_args:
+        - PHP_EXT_JOBS=2
+      cache_from:
+        - andrewgosselin/portfolio:buildcache
+      cache_to:
+        - type=registry,ref=andrewgosselin/portfolio:buildcache,mode=max
     when:
       event:
         - pull_request
@@ -24,13 +30,19 @@ steps:
         - latest
         - ${CI_COMMIT_SHA}
       auto_tag: true
+      build_args:
+        - PHP_EXT_JOBS=2
+      cache_from:
+        - andrewgosselin/portfolio:buildcache
+      cache_to:
+        - type=registry,ref=andrewgosselin/portfolio:buildcache,mode=max
     when:
       event:
         - push
       branch:
         - master
 
-  - name: docker-publish-tag-
+  - name: docker-publish-tag
     image: woodpeckerci/plugin-docker-buildx
     settings:
       repo: andrewgosselin/portfolio
@@ -41,6 +53,12 @@ steps:
       password:
         from_secret: dockerhub_token
       auto_tag: true
+      build_args:
+        - PHP_EXT_JOBS=2
+      cache_from:
+        - andrewgosselin/portfolio:buildcache
+      cache_to:
+        - type=registry,ref=andrewgosselin/portfolio:buildcache,mode=max
     when:
       event:
         - tag
