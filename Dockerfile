@@ -24,8 +24,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     supervisor \
     yt-dlp \
+    pkg-config \
     libicu-dev \
     libzip-dev \
+    libsqlite3-dev \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
