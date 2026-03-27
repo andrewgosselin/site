@@ -77,6 +77,7 @@ EOF
 
 cd /app
 php artisan cache:clear || true
+php artisan migrate --force
 chown -R www-data:www-data /app/storage /app/bootstrap/cache
 chmod -R 775 /app/storage /app/bootstrap/cache
 
